@@ -5,7 +5,7 @@ const initialSettings = {
   address: 'Ташкент, ул. Навои, 12',
   phone: '+998 90 111 22 33',
   whatsapp: 'https://wa.me/998901112233',
-  telegram: 'https://t.me/clinic',
+  telegram: 'https://t.me/bekk_cap1',
   instagram: 'https://instagram.com/clinic',
   seoTitle: 'Доктор Чарос — персональный сайт стоматолога',
   seoDescription:

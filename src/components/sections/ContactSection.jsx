@@ -67,12 +67,12 @@ function ContactSection() {
               WhatsApp
             </a>
             <a
-              href="https://t.me/clinic"
+              href="https://t.me/bekk_cap1"
               className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)] shadow-soft transition hover:-translate-y-0.5"
               target="_blank"
               rel="noreferrer"
             >
-              Telegram
+              Telegram @bekk_cap1
             </a>
           </div>
         </div>

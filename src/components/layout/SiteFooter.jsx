@@ -17,6 +17,17 @@ function SiteFooter() {
           </a>
         </div>
       </div>
+      <div className="mx-auto mt-4 flex max-w-6xl flex-wrap items-center justify-between gap-2 text-xs text-[color:var(--muted)]">
+        <span>Сайт создан: </span>
+        <a
+          className="font-semibold text-[color:var(--ink)] transition hover:text-[color:var(--sky)]"
+          href="https://t.me/bekk_cap1"
+          target="_blank"
+          rel="noreferrer"
+        >
+          @bekk_cap1
+        </a>
+      </div>
     </footer>
   )
 }
