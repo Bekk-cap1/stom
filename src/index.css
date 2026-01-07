@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=Unbounded:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --ink: #0b1e2b;
+  --muted: #4a6b7c;
+  --sea: #2ec4b6;
+  --sky: #3da9fc;
+  --sun: #f4b561;
+  --surface: #f6fbfd;
+  --card: rgba(255, 255, 255, 0.84);
+  --stroke: rgba(12, 38, 55, 0.12);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Onest', sans-serif;
+    color: var(--ink);
+    background: var(--surface);
+    overflow-x: hidden;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: -20% -10% auto -10%;
+  height: 60%;
+  background: radial-gradient(60% 60% at 20% 20%, rgba(61, 169, 252, 0.2), transparent),
+    radial-gradient(55% 70% at 80% 10%, rgba(46, 196, 182, 0.18), transparent),
+    radial-gradient(40% 40% at 50% 50%, rgba(244, 181, 97, 0.16), transparent);
+  filter: blur(10px);
+  z-index: -2;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: auto -20% -30% -20%;
+  height: 60%;
+  background: radial-gradient(45% 55% at 30% 70%, rgba(46, 196, 182, 0.15), transparent),
+    radial-gradient(40% 50% at 70% 80%, rgba(61, 169, 252, 0.18), transparent);
+  filter: blur(12px);
+  z-index: -2;
+}
+
+@keyframes float-sway {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float-sway 7s ease-in-out infinite;
+  }
+  .animate-float-slow {
+    animation: float-sway 10s ease-in-out infinite;
+  }
+  .animate-pulse-soft {
+    animation: pulse-soft 6s ease-in-out infinite;
+  }
+}
