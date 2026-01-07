@@ -1,5 +1,10 @@
 ﻿import { useState } from 'react'
 import { apiFetch } from '../../api/client'
+import {
+  formatDigitsInText,
+  formatNumberWithSpaces,
+  stripNonDigits,
+} from '../../utils/formatNumbers'
 
 const initialForm = {
   title: '',
@@ -16,17 +21,30 @@ function AdminServicesManager({ services, setServices }) {
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target
-    setForm((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }))
+
+    if (type === 'checkbox') {
+      setForm((prev) => ({ ...prev, [name]: checked }))
+      return
+    }
+
+    if (name === 'price') {
+      setForm((prev) => ({ ...prev, price: formatNumberWithSpaces(value) }))
+      return
+    }
+
+    if (name === 'duration_minutes') {
+      setForm((prev) => ({ ...prev, duration_minutes: value.replace(/\D/g, '') }))
+      return
+    }
+
+    setForm((prev) => ({ ...prev, [name]: value }))
   }
 
   const buildPayload = () => {
     const payload = {
       title: form.title.trim(),
       description: form.description.trim(),
-      price: form.price.trim(),
+      price: stripNonDigits(form.price),
       is_active: form.is_active,
     }
 
@@ -75,7 +93,7 @@ function AdminServicesManager({ services, setServices }) {
     setForm({
       title: item.title || '',
       description: item.description || '',
-      price: item.price || '',
+      price: formatNumberWithSpaces(item.price) || '',
       duration_minutes: item.duration_minutes || '',
       is_active: item.is_active !== false,
     })
@@ -93,6 +111,16 @@ function AdminServicesManager({ services, setServices }) {
     } catch (err) {
       setError(err.message)
     }
+  }
+
+  const renderPrice = (value) => {
+    if (value == null || value === '') return ''
+    const text = String(value)
+    const formatted = formatDigitsInText(text)
+    if (/[^\d\s.,]/.test(text) || text.toLowerCase().includes('сум')) {
+      return formatted
+    }
+    return `${formatted} сум`
   }
 
   return (
@@ -142,6 +170,7 @@ function AdminServicesManager({ services, setServices }) {
                 Цена
               </label>
               <input
+                inputMode="numeric"
                 name="price"
                 value={form.price}
                 onChange={handleChange}
@@ -154,6 +183,7 @@ function AdminServicesManager({ services, setServices }) {
                 Длительность (мин)
               </label>
               <input
+                inputMode="numeric"
                 name="duration_minutes"
                 value={form.duration_minutes}
                 onChange={handleChange}
@@ -204,7 +234,7 @@ function AdminServicesManager({ services, setServices }) {
           >
             <div>
               <p className="font-semibold text-[color:var(--ink)]">{item.title}</p>
-              <p className="text-xs text-[color:var(--muted)]">{item.price}</p>
+              <p className="text-xs text-[color:var(--muted)]">{renderPrice(item.price)}</p>
             </div>
             <div className="flex items-center gap-2">
               <span

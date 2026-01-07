@@ -1,4 +1,5 @@
 ﻿import { useState } from 'react'
+import { formatNumberWithSpaces, stripNonDigits } from '../../utils/formatNumbers'
 
 const initialForm = {
   first_name: '',
@@ -18,6 +19,10 @@ function AdminPatientsManager({ patients, setPatients }) {
 
   const handleChange = (event) => {
     const { name, value } = event.target
+    if (name === 'amount_paid') {
+      setForm((prev) => ({ ...prev, amount_paid: formatNumberWithSpaces(value) }))
+      return
+    }
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
@@ -37,7 +42,7 @@ function AdminPatientsManager({ patients, setPatients }) {
       age: form.age ? Number(form.age) : '',
       visit_date: form.visit_date,
       disease: form.disease.trim(),
-      amount_paid: form.amount_paid ? Number(form.amount_paid) : 0,
+      amount_paid: form.amount_paid ? Number(stripNonDigits(form.amount_paid)) : 0,
       payment_method: form.payment_method.trim(),
       notes: form.notes.trim(),
     }
@@ -61,7 +66,7 @@ function AdminPatientsManager({ patients, setPatients }) {
       age: item.age || '',
       visit_date: item.visit_date || '',
       disease: item.disease || '',
-      amount_paid: item.amount_paid || '',
+      amount_paid: formatNumberWithSpaces(item.amount_paid) || '',
       payment_method: item.payment_method || '',
       notes: item.notes || '',
     })
@@ -122,9 +127,9 @@ function AdminPatientsManager({ patients, setPatients }) {
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
                 Возраст
               </label>
-            <input
-              type="number"
-              name="age"
+              <input
+                type="number"
+                name="age"
                 value={form.age}
                 onChange={handleChange}
                 placeholder="30"
@@ -176,7 +181,7 @@ function AdminPatientsManager({ patients, setPatients }) {
               Оплата (сум)
             </label>
             <input
-              type="number"
+              inputMode="numeric"
               name="amount_paid"
               value={form.amount_paid}
               onChange={handleChange}
@@ -243,7 +248,9 @@ function AdminPatientsManager({ patients, setPatients }) {
             </div>
             <div className="flex items-center gap-2">
               <span className="rounded-full bg-[color:var(--sea)]/15 px-3 py-1 text-xs font-semibold text-[color:var(--sea)]">
-                {item.amount_paid ? `${item.amount_paid} сум` : 'оплата не указана'}
+                {item.amount_paid
+                  ? `${formatNumberWithSpaces(item.amount_paid)} сум`
+                  : 'оплата не указана'}
               </span>
               <button
                 type="button"

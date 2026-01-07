@@ -15,6 +15,7 @@ import ReviewsSection from '../components/sections/ReviewsSection'
 import ContactSection from '../components/sections/ContactSection'
 import WorkModal from '../components/sections/WorkModal'
 import { workGradientPairs, seoDefaults, mediaPlaceholders } from '../data/siteData'
+import { formatDigitsInText, formatNumberWithSpaces } from '../utils/formatNumbers'
 
 const normalizeImageList = (value) => {
   if (!value) return []
@@ -72,8 +73,15 @@ const truncateText = (text, max = 90) => {
 }
 
 const formatMoney = (value) => {
-  if (!value && value !== 0) return 'по запросу'
-  return `${value} сум`
+  if (value === null || value === undefined || value === '') return 'по запросу'
+  if (typeof value === 'number') return `${formatNumberWithSpaces(value)} сум`
+  const text = String(value).trim()
+  if (!text) return 'по запросу'
+  const formatted = formatDigitsInText(text)
+  if (/[^\d\s.,]/.test(text) || text.toLowerCase().includes('сум')) {
+    return formatted
+  }
+  return `${formatted} сум`
 }
 
 const formatDuration = (minutes) => {
@@ -83,7 +91,7 @@ const formatDuration = (minutes) => {
 
 const formatDiscountValue = (item) => {
   if (item.discount_percent != null) return `-${item.discount_percent}%`
-  if (item.discount_price) return `-${item.discount_price} сум`
+  if (item.discount_price) return `-${formatMoney(item.discount_price)}`
   return ''
 }
 

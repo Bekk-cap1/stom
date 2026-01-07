@@ -1,5 +1,6 @@
 ﻿import { useState } from 'react'
 import { apiFetch } from '../../api/client'
+import { formatNumberWithSpaces, stripNonDigits } from '../../utils/formatNumbers'
 
 const initialForm = {
   title: '',
@@ -19,10 +20,23 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target
-    setForm((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }))
+
+    if (type === 'checkbox') {
+      setForm((prev) => ({ ...prev, [name]: checked }))
+      return
+    }
+
+    if (name === 'discount_price') {
+      setForm((prev) => ({ ...prev, discount_price: formatNumberWithSpaces(value) }))
+      return
+    }
+
+    if (name === 'discount_percent') {
+      setForm((prev) => ({ ...prev, discount_percent: value.replace(/\D/g, '') }))
+      return
+    }
+
+    setForm((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleServiceChange = (event) => {
@@ -47,7 +61,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
     }
 
     if (form.discount_price) {
-      payload.discount_price = form.discount_price
+      payload.discount_price = stripNonDigits(form.discount_price)
     }
 
     return payload
@@ -89,7 +103,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
       title: item.title || '',
       description: item.description || '',
       discount_percent: item.discount_percent ?? '',
-      discount_price: item.discount_price ?? '',
+      discount_price: formatNumberWithSpaces(item.discount_price) ?? '',
       start_date: item.start_date || '',
       end_date: item.end_date || '',
       is_active: item.is_active !== false,
@@ -157,6 +171,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
                 Скидка (%)
               </label>
               <input
+                inputMode="numeric"
                 name="discount_percent"
                 value={form.discount_percent}
                 onChange={handleChange}
@@ -169,6 +184,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
                 Цена со скидкой
               </label>
               <input
+                inputMode="numeric"
                 name="discount_price"
                 value={form.discount_price}
                 onChange={handleChange}
@@ -266,7 +282,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
             <div>
               <p className="font-semibold text-[color:var(--ink)]">{item.title}</p>
               <p className="text-xs text-[color:var(--muted)]">
-                {item.start_date} → {item.end_date}
+                {item.start_date} - {item.end_date}
               </p>
             </div>
             <div className="flex items-center gap-2">
