@@ -24,7 +24,7 @@ function WorksSection({ works, onOpenWork, loading }) {
               наши работы
             </p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl">
-              Галерея <до / после>
+              Галерея {'<'}до / после{'>'}
             </h2>
           </div>
           <div className="flex flex-wrap gap-3">
