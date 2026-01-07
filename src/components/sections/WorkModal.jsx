@@ -1,5 +1,4 @@
 ﻿function WorkModal({ work, onClose }) {
-  console.log(work);
   if (!work) return null
 
   
