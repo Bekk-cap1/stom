@@ -1,5 +1,6 @@
 ﻿import { useEffect, useMemo, useState } from 'react'
 import { apiFetch } from '../api/client'
+import SeoHead from '../components/SeoHead'
 import AdminAppointmentsManager from '../components/admin/AdminAppointmentsManager'
 import AdminBannersManager from '../components/admin/AdminBannersManager'
 import AdminContactRequestsManager from '../components/admin/AdminContactRequestsManager'
@@ -94,48 +95,56 @@ function Admin() {
   }, [discounts, reviews, services, works])
 
   return (
-    <AdminLayout>
-      <AdminOverview stats={overviewStats} />
-      {error ? (
-        <div className="rounded-3xl border border-red-100 bg-red-50/80 p-4 text-sm text-red-500">
-          {error}
-        </div>
-      ) : null}
-      {loading ? (
-        <div className="rounded-3xl border border-white/70 bg-white/85 p-6 text-sm text-[color:var(--muted)]">
-          Загружаем данные из API...
-        </div>
-      ) : null}
-      <AdminDoctorsManager doctors={doctors} setDoctors={setDoctors} />
-      <AdminServicesManager services={services} setServices={setServices} />
-      <AdminWorksManager
-        works={works}
-        setWorks={setWorks}
-        doctors={doctors}
-        services={services}
+    <>
+      <SeoHead
+        title="Админ-панель стоматологической клиники"
+        description="Управление контентом, услугами и заявками клиники."
+        robots="noindex, nofollow"
+        ogType="website"
       />
-      <AdminBannersManager banners={banners} setBanners={setBanners} />
-      <AdminDiscountsManager
-        discounts={discounts}
-        setDiscounts={setDiscounts}
-        services={services}
-      />
-      <AdminReviewsManager
-        reviews={reviews}
-        setReviews={setReviews}
-        doctors={doctors}
-        works={works}
-      />
-      <AdminSeoPagesManager seoPages={seoPages} setSeoPages={setSeoPages} />
-      <AdminAppointmentsManager
-        appointments={appointments}
-        setAppointments={setAppointments}
-      />
-      <AdminContactRequestsManager
-        requests={contactRequests}
-        setRequests={setContactRequests}
-      />
-    </AdminLayout>
+      <AdminLayout>
+        <AdminOverview stats={overviewStats} />
+        {error ? (
+          <div className="rounded-3xl border border-red-100 bg-red-50/80 p-4 text-sm text-red-500">
+            {error}
+          </div>
+        ) : null}
+        {loading ? (
+          <div className="rounded-3xl border border-white/70 bg-white/85 p-6 text-sm text-[color:var(--muted)]">
+            Загружаем данные из API...
+          </div>
+        ) : null}
+        <AdminDoctorsManager doctors={doctors} setDoctors={setDoctors} />
+        <AdminServicesManager services={services} setServices={setServices} />
+        <AdminWorksManager
+          works={works}
+          setWorks={setWorks}
+          doctors={doctors}
+          services={services}
+        />
+        <AdminBannersManager banners={banners} setBanners={setBanners} />
+        <AdminDiscountsManager
+          discounts={discounts}
+          setDiscounts={setDiscounts}
+          services={services}
+        />
+        <AdminReviewsManager
+          reviews={reviews}
+          setReviews={setReviews}
+          doctors={doctors}
+          works={works}
+        />
+        <AdminSeoPagesManager seoPages={seoPages} setSeoPages={setSeoPages} />
+        <AdminAppointmentsManager
+          appointments={appointments}
+          setAppointments={setAppointments}
+        />
+        <AdminContactRequestsManager
+          requests={contactRequests}
+          setRequests={setContactRequests}
+        />
+      </AdminLayout>
+    </>
   )
 }
 
