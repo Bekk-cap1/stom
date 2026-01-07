@@ -1,4 +1,7 @@
-﻿function AdvantagesSection({ advantages, stats }) {
+﻿function AdvantagesSection({ advantages, stats, loading }) {
+  const hasAdvantages = advantages.length > 0
+  const hasStats = stats.length > 0
+
   return (
     <section className="px-6 pb-16">
       <div className="mx-auto max-w-6xl rounded-[36px] border border-white/70 bg-white/80 p-8 shadow-soft sm:p-10">
@@ -15,6 +18,9 @@
               получаете прозрачный план, точные сроки и поддержку на каждом
               шаге.
             </p>
+            {loading && !hasAdvantages ? (
+              <p className="mt-4 text-sm text-[color:var(--muted)]">Загружаем преимущества...</p>
+            ) : null}
             <div className="mt-6 space-y-3 text-sm text-[color:var(--muted)]">
               {advantages.map((advantage) => (
                 <div
@@ -30,6 +36,11 @@
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
+            {loading && !hasStats ? (
+              <div className="rounded-3xl border border-white/70 bg-white/75 p-6 text-sm text-[color:var(--muted)]">
+                Загружаем статистику...
+              </div>
+            ) : null}
             {stats.map((stat) => (
               <div
                 key={stat.label}
@@ -54,7 +65,7 @@
                 href="#contact"
                 className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--sky)]"
               >
-                Получить консультацию →
+                Получить консультацию
               </a>
             </div>
             <div className="rounded-3xl border border-white/70 bg-gradient-to-br from-emerald-100/80 via-white to-sky-100/70 p-6 shadow-soft">
@@ -71,7 +82,7 @@
                 href="#works"
                 className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--sky)]"
               >
-                Смотреть отчеты →
+                Смотреть отчеты
               </a>
             </div>
           </div>

@@ -87,7 +87,10 @@ export const apiFetch = async (path, options = {}) => {
 
       if (!retryResponse.ok) {
         const errorBody = await parseResponse(retryResponse)
-        throw new Error(errorBody?.detail || 'Запрос завершился ошибкой')
+        const error = new Error(errorBody?.detail || 'Запрос завершился ошибкой')
+        error.status = retryResponse.status
+        error.body = errorBody
+        throw error
       }
 
       return parseResponse(retryResponse)
@@ -96,7 +99,10 @@ export const apiFetch = async (path, options = {}) => {
 
   if (!response.ok) {
     const errorBody = await parseResponse(response)
-    throw new Error(errorBody?.detail || 'Запрос завершился ошибкой')
+    const error = new Error(errorBody?.detail || 'Запрос завершился ошибкой')
+    error.status = response.status
+    error.body = errorBody
+    throw error
   }
 
   return parseResponse(response)

@@ -1,8 +1,10 @@
 ﻿import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/AuthContext'
 
-const navItems = [
+const defaultNavItems = [
   { id: 'overview', label: 'Обзор' },
+  { id: 'patients', label: 'Пациенты' },
+  { id: 'users', label: 'Пользователи' },
   { id: 'doctors', label: 'Врачи' },
   { id: 'services', label: 'Услуги' },
   { id: 'works', label: 'Работы' },
@@ -14,7 +16,7 @@ const navItems = [
   { id: 'contacts', label: 'Контакты' },
 ]
 
-function AdminLayout({ children }) {
+function AdminLayout({ children, navItems = defaultNavItems }) {
   const { user, logout } = useAuth()
 
   return (
@@ -34,7 +36,7 @@ function AdminLayout({ children }) {
                 to="/"
                 className="inline-flex items-center text-sm font-semibold text-[color:var(--sky)]"
               >
-                ← На сайт
+                На сайт
               </Link>
               <button
                 type="button"
@@ -54,7 +56,7 @@ function AdminLayout({ children }) {
                     className="flex items-center justify-between rounded-2xl border border-transparent px-3 py-2 transition hover:border-white/70 hover:bg-white/70 hover:text-[color:var(--ink)]"
                   >
                     {item.label}
-                    <span className="text-xs">→</span>
+                    <span className="text-xs">{'>'}</span>
                   </a>
                 </li>
               ))}
@@ -74,7 +76,7 @@ function AdminLayout({ children }) {
                 to="/"
                 className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)] shadow-soft transition hover:-translate-y-0.5"
               >
-                Вернуться на сайт
+                На сайт
               </Link>
               <button
                 type="button"

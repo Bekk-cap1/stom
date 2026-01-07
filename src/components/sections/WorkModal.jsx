@@ -1,5 +1,8 @@
 ﻿function WorkModal({ work, onClose }) {
+  console.log(work);
   if (!work) return null
+
+  
 
   return (
     <div
@@ -18,7 +21,9 @@
               {work.type} · {work.date}
             </p>
             <h3 className="mt-2 text-2xl font-semibold">{work.title}</h3>
-            <p className="mt-2 text-sm text-[color:var(--muted)]">{work.note}</p>
+            <p className="mt-2 text-sm text-[color:var(--muted)]">
+              {work.description || work.note}
+            </p>
           </div>
           <button
             type="button"
@@ -29,27 +34,33 @@
           </button>
         </div>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {['до', 'после'].map((label, index) => (
-            <div
-              key={label}
-              className={`relative h-44 overflow-hidden rounded-2xl bg-gradient-to-br ${
-                index === 0 ? work.beforeClass : work.afterClass
-              }`}
-            >
-              <span className="absolute left-4 top-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                {label}
-              </span>
-            </div>
-          ))}
+          {['до', 'после'].map((label, index) => {
+            const imageUrl =
+              index === 0 ? work.beforeImages?.[0] : work.afterImages?.[0]
+            const fallbackClass = index === 0 ? work.beforeClass : work.afterClass
+
+            return (
+              <div
+                key={label}
+                className={`relative h-44 overflow-hidden rounded-2xl ${
+                  imageUrl ? 'bg-slate-100' : `bg-gradient-to-br ${fallbackClass}`
+                }`}
+              >
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt={`Фото ${label}`}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                ) : null}
+                <span className="absolute left-4 top-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+                  {label}
+                </span>
+              </div>
+            )
+          })}
         </div>
-        {work.mediaType === 'video' ? (
-          <div className="mt-5 overflow-hidden rounded-2xl bg-slate-900">
-            <video className="h-52 w-full object-cover" controls preload="metadata">
-              <source src="/video/case.mp4" type="video/mp4" />
-              <source src="/video/case.webm" type="video/webm" />
-            </video>
-          </div>
-        ) : null}
       </div>
     </div>
   )

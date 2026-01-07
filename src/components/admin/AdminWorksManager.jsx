@@ -12,10 +12,51 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
   const [form, setForm] = useState(initialForm)
   const [editingId, setEditingId] = useState(null)
   const [error, setError] = useState('')
+  const [beforeImages, setBeforeImages] = useState([])
+  const [afterImages, setAfterImages] = useState([])
+  const [isUploading, setIsUploading] = useState(false)
+  const [fileResetKey, setFileResetKey] = useState(0)
 
   const handleChange = (event) => {
     const { name, value } = event.target
     setForm((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files || [])
+    if (event.target.name === 'before_images') {
+      setBeforeImages(files)
+    } else {
+      setAfterImages(files)
+    }
+  }
+
+  const uploadImages = async (workId) => {
+    const uploads = []
+
+    const enqueueUploads = (files, type) => {
+      files.forEach((file) => {
+        const formData = new FormData()
+        formData.append('image', file)
+        formData.append('type', type)
+        formData.append('work', String(workId))
+        formData.append('work_id', String(workId))
+        uploads.push(apiFetch('/api/work-images/', { method: 'POST', body: formData }))
+      })
+    }
+
+    enqueueUploads(beforeImages, 'before')
+    enqueueUploads(afterImages, 'after')
+
+    if (!uploads.length) return false
+
+    setIsUploading(true)
+    try {
+      await Promise.all(uploads)
+      return true
+    } finally {
+      setIsUploading(false)
+    }
   }
 
   const handleSubmit = async (event) => {
@@ -40,15 +81,32 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
         { method: editingId ? 'PATCH' : 'POST', body: payload },
       )
 
+      const workId = result?.id || editingId
+      let finalResult = result
+
+      if (workId) {
+        try {
+          const didUpload = await uploadImages(workId)
+          if (didUpload) {
+            finalResult = await apiFetch(`/api/works/${workId}/`)
+          }
+        } catch (uploadError) {
+          setError(uploadError.message)
+        }
+      }
+
       setWorks((prev) => {
         if (editingId) {
-          return prev.map((item) => (item.id === editingId ? result : item))
+          return prev.map((item) => (item.id === editingId ? finalResult : item))
         }
-        return [result, ...prev]
+        return [finalResult, ...prev]
       })
 
       setEditingId(null)
       setForm(initialForm)
+      setBeforeImages([])
+      setAfterImages([])
+      setFileResetKey((prev) => prev + 1)
     } catch (err) {
       setError(err.message)
     }
@@ -62,6 +120,9 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
       title: item.title || '',
       description: item.description || '',
     })
+    setBeforeImages([])
+    setAfterImages([])
+    setFileResetKey((prev) => prev + 1)
   }
 
   const handleDelete = async (id) => {
@@ -72,6 +133,9 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
       if (editingId === id) {
         setEditingId(null)
         setForm(initialForm)
+        setBeforeImages([])
+        setAfterImages([])
+        setFileResetKey((prev) => prev + 1)
       }
     } catch (err) {
       setError(err.message)
@@ -159,14 +223,53 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
           </div>
         </div>
         <div className="space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            Изображения до/после загружаются через Work Images API.
-          </p>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+              Фото «до»
+            </label>
+            <input
+              key={`before-${fileResetKey}`}
+              type="file"
+              name="before_images"
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+              className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm"
+            />
+            {beforeImages.length ? (
+              <p className="mt-2 text-xs text-[color:var(--muted)]">
+                Выбрано: {beforeImages.length}
+              </p>
+            ) : null}
+          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+              Фото «после»
+            </label>
+            <input
+              key={`after-${fileResetKey}`}
+              type="file"
+              name="after_images"
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+              className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm"
+            />
+            {afterImages.length ? (
+              <p className="mt-2 text-xs text-[color:var(--muted)]">
+                Выбрано: {afterImages.length}
+              </p>
+            ) : null}
+          </div>
           {error ? <p className="text-sm text-red-500">{error}</p> : null}
+          {isUploading ? (
+            <p className="text-sm text-[color:var(--muted)]">Загружаем изображения...</p>
+          ) : null}
           <div className="flex flex-wrap items-center gap-3">
             <button
               type="submit"
-              className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft"
+              disabled={isUploading}
+              className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft disabled:opacity-70"
             >
               {editingId ? 'Сохранить' : 'Добавить работу'}
             </button>
@@ -176,6 +279,9 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
                 setEditingId(null)
                 setForm(initialForm)
                 setError('')
+                setBeforeImages([])
+                setAfterImages([])
+                setFileResetKey((prev) => prev + 1)
               }}
               className="rounded-full border border-white/70 bg-white/80 px-5 py-2 text-sm font-semibold text-[color:var(--muted)]"
             >

@@ -190,17 +190,17 @@ export const videoPosts = [
   {
     title: 'Весеннее отбеливание',
     valid: 'действует до 20 апреля',
-    description: 'Видео-обзор процедуры и скидка 20%.',
+    description: 'Фотоподборка процедуры и скидка 20%.',
   },
   {
     title: 'Проверка имплантов',
     valid: 'действует до 5 мая',
-    description: 'Бесплатный контрольный снимок.',
+    description: 'Бесплатный контрольный снимок и консультация.',
   },
   {
     title: 'Ортодонтия для студентов',
     valid: 'действует до 15 мая',
-    description: 'Скидка на элайнеры и брекеты.',
+    description: 'Скидка на элайнеры и брекеты с фото-кейсами.',
   },
 ]
 
@@ -239,8 +239,14 @@ export const education = [
 ]
 
 export const seoDefaults = {
-  title: 'Доктор Салимова — персональный сайт стоматолога',
+  title: 'Доктор Чарос — персональный сайт стоматолога',
   description:
     'Современный сайт-витрина стоматолога с реальными работами, акциями и записью.',
   robots: 'index, follow',
+}
+
+export const mediaPlaceholders = {
+  clinic: '/images/clinic-placeholder.svg',
+  doctor: '/images/doctor-placeholder.svg',
+  announcement: '/images/announcement-placeholder.svg',
 }

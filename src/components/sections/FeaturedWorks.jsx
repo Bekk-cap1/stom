@@ -1,4 +1,6 @@
-﻿function FeaturedWorks({ works, onOpenWork }) {
+﻿function FeaturedWorks({ works, onOpenWork, loading }) {
+  const isLoading = loading && !works.length
+
   return (
     <section className="px-6 pb-16">
       <div className="mx-auto max-w-6xl">
@@ -18,6 +20,9 @@
             Смотреть весь архив
           </a>
         </div>
+        {isLoading ? (
+          <p className="mt-6 text-sm text-[color:var(--muted)]">Загружаем работы...</p>
+        ) : null}
         <div className="mt-8 grid gap-6 md:grid-cols-3">
           {works.slice(0, 3).map((work) => (
             <button
@@ -27,18 +32,33 @@
               className="group rounded-3xl border border-white/70 bg-white/80 p-5 text-left shadow-soft transition hover:-translate-y-1"
             >
               <div className="grid grid-cols-2 gap-3">
-                {['до', 'после'].map((label, index) => (
-                  <div
-                    key={label}
-                    className={`relative h-24 overflow-hidden rounded-2xl bg-gradient-to-br ${
-                      index === 0 ? work.beforeClass : work.afterClass
-                    }`}
-                  >
-                    <span className="absolute left-3 top-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                      {label}
-                    </span>
-                  </div>
-                ))}
+                {['до', 'после'].map((label, index) => {
+                  const imageUrl =
+                    index === 0 ? work.beforeImages?.[0] : work.afterImages?.[0]
+                  const fallbackClass =
+                    index === 0 ? work.beforeClass : work.afterClass
+
+                  return (
+                    <div
+                      key={label}
+                      className={`relative h-24 overflow-hidden rounded-2xl ${
+                        imageUrl ? 'bg-slate-100' : `bg-gradient-to-br ${fallbackClass}`
+                      }`}
+                    >
+                      {imageUrl ? (
+                        <img
+                          src={imageUrl}
+                          alt={`Фото ${label}`}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      ) : null}
+                      <span className="absolute left-3 top-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+                        {label}
+                      </span>
+                    </div>
+                  )
+                })}
               </div>
               <div className="mt-4">
                 <p className="text-sm font-semibold text-[color:var(--muted)]">

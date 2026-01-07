@@ -5,7 +5,7 @@ const navLinks = [
   { label: 'О враче', href: '#about' },
   { label: 'Услуги', href: '#services' },
   { label: 'Работы', href: '#works' },
-  { label: 'Видео и акции', href: '#videos' },
+  { label: 'Фото и акции', href: '#videos' },
   { label: 'Отзывы', href: '#reviews' },
   { label: 'Контакты', href: '#contact' },
 ]

@@ -2,13 +2,14 @@
 import { apiFetch } from '../../api/client'
 
 const initialForm = {
+  user_id: '',
   specialization: '',
   experience_years: '',
   bio: '',
   is_active: true,
 }
 
-function AdminDoctorsManager({ doctors, setDoctors }) {
+function AdminDoctorsManager({ doctors, setDoctors, users }) {
   const [form, setForm] = useState(initialForm)
   const [editingId, setEditingId] = useState(null)
   const [error, setError] = useState('')
@@ -25,12 +26,18 @@ function AdminDoctorsManager({ doctors, setDoctors }) {
     event.preventDefault()
     setError('')
 
+    if (!form.user_id) {
+      setError('Выберите пользователя для врача')
+      return
+    }
+
     if (!form.specialization.trim()) {
       setError('Укажите специализацию врача')
       return
     }
 
     const payload = {
+      user_id: Number(form.user_id),
       specialization: form.specialization.trim(),
       bio: form.bio.trim(),
       is_active: form.is_active,
@@ -63,6 +70,7 @@ function AdminDoctorsManager({ doctors, setDoctors }) {
   const handleEdit = (item) => {
     setEditingId(item.id)
     setForm({
+      user_id: item.user?.id || item.user_id || '',
       specialization: item.specialization || '',
       experience_years: item.experience_years || '',
       bio: item.bio || '',
@@ -100,6 +108,29 @@ function AdminDoctorsManager({ doctors, setDoctors }) {
 
       <form onSubmit={handleSubmit} className="mt-6 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="space-y-4">
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+              Пользователь
+            </label>
+            <select
+              name="user_id"
+              value={form.user_id}
+              onChange={handleChange}
+              className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
+            >
+              <option value="">Выберите пользователя</option>
+              {users.map((user) => (
+                <option key={user.id || user.username} value={user.id || ''} disabled={!user.id}>
+                  {user.full_name || user.username || user.email || 'Пользователь'}
+                </option>
+              ))}
+            </select>
+            {!users.length ? (
+              <p className="mt-2 text-xs text-[color:var(--muted)]">
+                Сначала добавьте пользователя в разделе «Пользователи».
+              </p>
+            ) : null}
+          </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
               Специализация
@@ -215,3 +246,5 @@ function AdminDoctorsManager({ doctors, setDoctors }) {
 }
 
 export default AdminDoctorsManager
+
+

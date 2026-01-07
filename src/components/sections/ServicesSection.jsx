@@ -1,4 +1,6 @@
-﻿function ServicesSection({ services }) {
+﻿function ServicesSection({ services, loading }) {
+  const isLoading = loading && !services.length
+
   return (
     <section id="services" className="px-6 pb-16">
       <div className="mx-auto max-w-6xl">
@@ -15,19 +17,24 @@
             Цены обновляются ежемесячно
           </span>
         </div>
+        {isLoading ? (
+          <p className="mt-6 text-sm text-[color:var(--muted)]">Загружаем услуги...</p>
+        ) : null}
         <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {services.map((service) => (
             <div
-              key={service.title}
+              key={service.id || service.title}
               className="rounded-3xl border border-white/70 bg-white/80 p-6 shadow-soft transition hover:-translate-y-1"
             >
               <div className="flex items-center justify-between">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[color:var(--sky)]/15 text-base font-bold text-[color:var(--sky)]">
-                  {service.icon}
+                  {service.icon || service.title?.[0] || 'S'}
                 </div>
-                <span className="rounded-full bg-[color:var(--sea)]/15 px-3 py-1 text-xs font-semibold text-[color:var(--sea)]">
-                  {service.tag}
-                </span>
+                {service.tag ? (
+                  <span className="rounded-full bg-[color:var(--sea)]/15 px-3 py-1 text-xs font-semibold text-[color:var(--sea)]">
+                    {service.tag}
+                  </span>
+                ) : null}
               </div>
               <h3 className="mt-5 text-xl font-semibold">{service.title}</h3>
               <p className="mt-3 text-sm text-[color:var(--muted)]">
@@ -37,9 +44,11 @@
                 <span className="font-semibold text-[color:var(--ink)]">
                   {service.price}
                 </span>
-                <span className="rounded-full border border-white/70 bg-white/70 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]">
-                  {service.duration}
-                </span>
+                {service.duration ? (
+                  <span className="rounded-full border border-white/70 bg-white/70 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]">
+                    {service.duration}
+                  </span>
+                ) : null}
               </div>
             </div>
           ))}

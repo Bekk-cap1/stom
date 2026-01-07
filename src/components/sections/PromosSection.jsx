@@ -1,4 +1,6 @@
-﻿function PromosSection({ promos }) {
+﻿function PromosSection({ promos, loading }) {
+  const isLoading = loading && !promos.length
+
   return (
     <section className="px-6 pb-16">
       <div className="mx-auto max-w-6xl rounded-[36px] border border-white/70 bg-white/80 p-8 shadow-soft sm:p-10">
@@ -18,10 +20,13 @@
             Забрать скидку
           </a>
         </div>
+        {isLoading ? (
+          <p className="mt-6 text-sm text-[color:var(--muted)]">Загружаем акции...</p>
+        ) : null}
         <div className="mt-8 grid gap-6 md:grid-cols-3">
           {promos.map((promo) => (
             <div
-              key={promo.title}
+              key={promo.id || promo.title}
               className="rounded-3xl border border-white/70 bg-gradient-to-br from-white/90 to-white/70 p-6 shadow-soft"
             >
               <div className="flex items-center justify-between">
@@ -40,7 +45,7 @@
                 href="#contact"
                 className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--sky)]"
               >
-                Записаться →
+                Записаться
               </a>
             </div>
           ))}

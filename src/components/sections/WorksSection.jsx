@@ -1,12 +1,11 @@
 ﻿import { useMemo, useState } from 'react'
-import { Play } from '../ui/Icons'
 
-function WorksSection({ works, onOpenWork }) {
+function WorksSection({ works, onOpenWork, loading }) {
   const [activeType, setActiveType] = useState('Все')
   const [activeDate, setActiveDate] = useState('Все')
 
-  const workTypes = ['Все', ...new Set(works.map((work) => work.type))]
-  const workDates = ['Все', ...new Set(works.map((work) => work.date))]
+  const workTypes = ['Все', ...new Set(works.map((work) => work.type).filter(Boolean))]
+  const workDates = ['Все', ...new Set(works.map((work) => work.date).filter(Boolean))]
 
   const filteredWorks = useMemo(() => {
     return works.filter((work) => {
@@ -25,7 +24,7 @@ function WorksSection({ works, onOpenWork }) {
               наши работы
             </p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl">
-              Галерея «до / после»
+              Галерея <до / после>
             </h2>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -59,6 +58,9 @@ function WorksSection({ works, onOpenWork }) {
             ))}
           </div>
         </div>
+        {loading && !works.length ? (
+          <p className="mt-6 text-sm text-[color:var(--muted)]">Загружаем галерею...</p>
+        ) : null}
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           {filteredWorks.map((work) => (
             <button
@@ -76,32 +78,37 @@ function WorksSection({ works, onOpenWork }) {
                 </span>
               </div>
               <div className="mt-4 grid grid-cols-2 gap-3">
-                {['до', 'после'].map((label, index) => (
-                  <div
-                    key={label}
-                    className={`relative h-28 overflow-hidden rounded-2xl bg-gradient-to-br ${
-                      index === 0 ? work.beforeClass : work.afterClass
-                    }`}
-                  >
-                    <span className="absolute left-3 top-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                      {label}
-                    </span>
-                  </div>
-                ))}
+                {['до', 'после'].map((label, index) => {
+                  const imageUrl =
+                    index === 0 ? work.beforeImages?.[0] : work.afterImages?.[0]
+                  const fallbackClass =
+                    index === 0 ? work.beforeClass : work.afterClass
+
+                  return (
+                    <div
+                      key={label}
+                      className={`relative h-28 overflow-hidden rounded-2xl ${
+                        imageUrl ? 'bg-slate-100' : `bg-gradient-to-br ${fallbackClass}`
+                      }`}
+                    >
+                      {imageUrl ? (
+                        <img
+                          src={imageUrl}
+                          alt={`Фото ${label}`}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      ) : null}
+                      <span className="absolute left-3 top-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+                        {label}
+                      </span>
+                    </div>
+                  )
+                })}
               </div>
-              <div className="mt-4 flex items-center justify-between">
-                <div>
-                  <p className="text-lg font-semibold">{work.title}</p>
-                  <p className="mt-1 text-sm text-[color:var(--muted)]">
-                    {work.note}
-                  </p>
-                </div>
-                {work.mediaType === 'video' ? (
-                  <span className="flex items-center gap-2 rounded-full bg-[color:var(--sky)]/15 px-3 py-1 text-xs font-semibold text-[color:var(--sky)]">
-                    <Play className="h-4 w-4" />
-                    видео
-                  </span>
-                ) : null}
+              <div className="mt-4">
+                <p className="text-lg font-semibold">{work.title}</p>
+                <p className="mt-1 text-sm text-[color:var(--muted)]">{work.note}</p>
               </div>
             </button>
           ))}

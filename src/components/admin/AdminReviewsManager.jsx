@@ -79,7 +79,15 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
         body: {},
       })
 
-      setReviews((prev) => prev.map((item) => (item.id === id ? result : item)))
+      setReviews((prev) =>
+        prev.map((item) => {
+          if (item.id !== id) return item
+          if (result && typeof result === 'object') {
+            return { ...item, ...result, is_approved: result.is_approved ?? true }
+          }
+          return { ...item, is_approved: true }
+        }),
+      )
     } catch (err) {
       setError(err.message)
     }
