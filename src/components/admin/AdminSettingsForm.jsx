@@ -7,7 +7,7 @@ const initialSettings = {
   whatsapp: 'https://wa.me/998901112233',
   telegram: 'https://t.me/clinic',
   instagram: 'https://instagram.com/clinic',
-  seoTitle: 'Доктор Салимова — персональный сайт стоматолога',
+  seoTitle: 'Доктор Чарос — персональный сайт стоматолога',
   seoDescription:
     'Современный сайт-витрина стоматолога с реальными работами, акциями и записью.',
 }
