@@ -27,6 +27,7 @@ export const getDefaultSiteSettings = () => ({
   seoTitle: 'Doktor Charos - stomatologning shaxsiy sayti',
   seoDescription:
     "Stomatolog uchun zamonaviy vitrina-sayt: haqiqiy ishlar, aksiyalar va qabulga yozilish.",
+  ogImageUrl: '/IMG_6187.JPG',
 
   documents: {
     resumeUrl: '/docs/rezume-charos-vohidova.pdf',
@@ -112,6 +113,8 @@ export const setSiteSettings = (next) => {
         : [],
     }
   }
+
+  payload.ogImageUrl = String(payload.ogImageUrl || '').trim()
 
   localStorage.setItem(SETTINGS_STORAGE_KEY, safeStringify(payload))
   window.dispatchEvent(new Event('stom:settings'))

@@ -1,4 +1,4 @@
-﻿import { useEffect } from 'react'
+import { useEffect } from 'react'
 
 const upsertMeta = (attribute, key, content) => {
   if (!content) return
@@ -22,6 +22,23 @@ const upsertLink = (rel, href) => {
   element.setAttribute('href', href)
 }
 
+const upsertJsonLd = (value) => {
+  const existing = document.querySelector('script[type="application/ld+json"][data-seo="jsonld"]')
+  if (!value) {
+    if (existing) existing.remove()
+    return
+  }
+
+  const text = typeof value === 'string' ? value : JSON.stringify(value)
+  if (!text) return
+
+  const element = existing || document.createElement('script')
+  element.setAttribute('type', 'application/ld+json')
+  element.setAttribute('data-seo', 'jsonld')
+  element.textContent = text
+  if (!existing) document.head.appendChild(element)
+}
+
 function SeoHead({
   title,
   description,
@@ -33,6 +50,7 @@ function SeoHead({
   ogUrl,
   ogImage,
   twitterCard,
+  jsonLd,
 }) {
   useEffect(() => {
     if (title) document.title = title
@@ -51,9 +69,12 @@ function SeoHead({
     upsertMeta('name', 'twitter:title', ogTitle || title)
     upsertMeta('name', 'twitter:description', ogDescription || description)
     upsertMeta('name', 'twitter:image', ogImage)
+
+    upsertJsonLd(jsonLd)
   }, [
     canonical,
     description,
+    jsonLd,
     ogDescription,
     ogImage,
     ogTitle,
@@ -68,3 +89,4 @@ function SeoHead({
 }
 
 export default SeoHead
+

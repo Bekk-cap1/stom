@@ -20,6 +20,8 @@ import { formatDigitsInText, formatNumberWithSpaces, stripNonDigits } from '../u
 import { buildHomeSeo } from '../utils/seo'
 import { computeAvailability } from '../utils/availability'
 import { getSiteSettings } from '../utils/siteSettings'
+import { buildDentistJsonLd } from '../utils/seoSchema'
+import { getClinicHours } from '../utils/clinicSchedule'
 
 const normalizeImageList = (value) => {
   if (!value) return []
@@ -487,10 +489,17 @@ function Home() {
 
   const { title, description } = useMemo(() => {
     const siteSettings = getSiteSettings()
+    const cities = Array.isArray(siteSettings?.locations)
+      ? Array.from(
+          new Set(siteSettings.locations.map((loc) => String(loc?.city || '').trim()).filter(Boolean)),
+        )
+      : []
     const autoSeo = buildHomeSeo({
       doctor: primaryDoctor,
       services: serviceItems,
-      defaultName: 'Charos',
+      clinicName: siteSettings?.clinicName,
+      cities,
+      defaultName: siteSettings?.clinicName || 'Charos',
       defaultExperienceYears: 15,
     })
 
@@ -508,7 +517,48 @@ function Home() {
     import.meta.env.VITE_SITE_URL ||
     (typeof window !== 'undefined' ? window.location.origin : '')
   const canonical = siteUrl ? `${siteUrl}/` : undefined
-  const ogImage = import.meta.env.VITE_OG_IMAGE || ''
+  const siteSettings = useMemo(() => getSiteSettings(), [])
+  const ogImage =
+    import.meta.env.VITE_OG_IMAGE ||
+    siteSettings?.ogImageUrl ||
+    (siteUrl ? `${siteUrl}/IMG_6187.JPG` : '/IMG_6187.JPG')
+
+  const jsonLd = useMemo(() => {
+    const settings = getSiteSettings()
+    const locations = Array.isArray(settings?.locations) ? settings.locations : []
+    const primary = locations.find((loc) => loc?.id === settings?.primaryLocationId) || locations[0]
+    const phones = [
+      ...(primary?.phones || []),
+      ...(locations.flatMap((loc) => loc?.phones || []) || []),
+      settings?.phone,
+    ]
+      .map((p) => String(p || '').trim())
+      .filter(Boolean)
+
+    const socials = [settings?.telegram, settings?.instagram, settings?.whatsapp]
+
+    const hours = getClinicHours()
+    const doctorName =
+      primaryDoctor?.user?.full_name || primaryDoctor?.user?.username || settings?.clinicName || ''
+    const experienceYears = Number(primaryDoctor?.experience_years) || 15
+
+    return buildDentistJsonLd({
+      siteUrl,
+      canonical,
+      title,
+      description,
+      clinicName: settings?.clinicName,
+      doctorName,
+      experienceYears,
+      locations,
+      socials,
+      phones,
+      ogImage,
+      defaultStart: hours?.defaultStart || '09:00',
+      defaultEnd: hours?.defaultEnd || '20:00',
+      services: serviceItems,
+    })
+  }, [canonical, description, ogImage, primaryDoctor, serviceItems, siteUrl, title])
 
   return (
     <div className="text-[color:var(--ink)]">
@@ -521,6 +571,7 @@ function Home() {
         ogUrl={canonical}
         ogImage={ogImage}
         twitterCard="summary_large_image"
+        jsonLd={jsonLd}
       />
       <SiteHeader />
       <main className="pt-24 sm:pt-28">

@@ -261,6 +261,21 @@ function AdminSettingsForm() {
                 className="mt-2 w-full resize-none rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
               />
             </div>
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+                OG rasm (OpenGraph) URL
+              </label>
+              <input
+                name="ogImageUrl"
+                value={settings.ogImageUrl || ''}
+                onChange={handleChange}
+                placeholder="/IMG_6187.JPG"
+                className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
+              />
+              <p className="mt-2 text-xs text-[color:var(--muted)]">
+                Ijtimoiy tarmoqlarda link tashlanganda chiqadigan rasm. Eng yaxshi o'lcham: 1200×630.
+              </p>
+            </div>
           </div>
         </div>
 
