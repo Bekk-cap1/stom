@@ -201,11 +201,28 @@ body::after {
   }
 
   :root[data-theme='dark'] .bg-white\/70,
+  :root[data-theme='dark'] .bg-white\/75,
   :root[data-theme='dark'] .bg-white\/80,
   :root[data-theme='dark'] .bg-white\/85,
   :root[data-theme='dark'] .bg-white\/90,
   :root[data-theme='dark'] .bg-white\/95 {
     background-color: var(--card) !important;
+  }
+
+  :root[data-theme='dark'] .bg-white\/75 {
+    background-color: rgba(18, 24, 48, 0.72) !important;
+  }
+
+  :root[data-theme='dark'] .bg-slate-100 {
+    background-color: rgba(234, 242, 255, 0.07) !important;
+  }
+
+  :root[data-theme='dark'] .bg-slate-200 {
+    background-color: rgba(234, 242, 255, 0.1) !important;
+  }
+
+  :root[data-theme='dark'] .text-slate-500 {
+    color: var(--muted) !important;
   }
 
   :root[data-theme='dark'] .ring-white\/70 {

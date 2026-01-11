@@ -18,9 +18,39 @@ function AdminSettingsForm() {
     return Array.isArray(settings?.locations) ? settings.locations : []
   }, [settings?.locations])
 
+  const documents = useMemo(() => {
+    return settings?.documents && typeof settings.documents === 'object' ? settings.documents : {}
+  }, [settings?.documents])
+
+  const certificates = useMemo(() => {
+    return Array.isArray(documents?.certificates) ? documents.certificates : []
+  }, [documents?.certificates])
+
   const handleChange = (event) => {
     const { name, value } = event.target
     setSettingsState((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const updateDocuments = (patch) => {
+    setSettingsState((prev) => {
+      const nextDocuments =
+        prev?.documents && typeof prev.documents === 'object' ? prev.documents : {}
+      return { ...prev, documents: { ...nextDocuments, ...patch } }
+    })
+  }
+
+  const updateCertificate = (index, value) => {
+    updateDocuments({
+      certificates: certificates.map((item, idx) => (idx === index ? value : item)),
+    })
+  }
+
+  const addCertificate = () => {
+    updateDocuments({ certificates: [...certificates, ''] })
+  }
+
+  const removeCertificate = (index) => {
+    updateDocuments({ certificates: certificates.filter((_, idx) => idx !== index) })
   }
 
   const updateLocation = (id, patch) => {
@@ -81,7 +111,7 @@ function AdminSettingsForm() {
         </p>
         <h3 className="mt-2 font-display text-2xl">Bosh sahifa va kontaktlar</h3>
         <p className="mt-2 text-sm text-[color:var(--muted)]">
-          Hozircha sozlamalar brauzerda saqlanadi (endpoint bo‘lsa keyin API’ga ulab beramiz).
+          Hozircha sozlamalar brauzerda saqlanadi (endpoint bo'lsa keyin API'ga ulab beramiz).
         </p>
       </div>
 
@@ -115,7 +145,7 @@ function AdminSettingsForm() {
                 className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
               />
               <p className="mt-2 text-xs text-[color:var(--muted)]">
-                Bo‘sh qoldirilsa shifokor ma’lumotidan olinadi.
+                Bo'sh qoldirilsa shifokor ma'lumotidan olinadi.
               </p>
             </div>
             <div>
@@ -204,7 +234,7 @@ function AdminSettingsForm() {
               SEO
             </p>
             <p className="text-sm text-[color:var(--muted)]">
-              Bu yerda yozilgan qiymatlar Home’dagi meta-teglarga fallback bo‘ladi.
+              Bu yerda yozilgan qiymatlar `Home` sahifadagi meta-teglarga fallback bo'ladi.
             </p>
           </div>
           <div className="space-y-4">
@@ -234,6 +264,75 @@ function AdminSettingsForm() {
           </div>
         </div>
 
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+              Hujjatlar
+            </p>
+            <p className="text-sm text-[color:var(--muted)]">
+              Rezyume va sertifikatlarni ko'rsatish uchun URL kiriting. Agar fayl kompyuteringizda
+              bo'lsa, uni `public/docs` papkaga qo'yib, URL ni `/docs/...` ko'rinishida yozing.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+                Rezyume (PDF) URL
+              </label>
+              <input
+                value={documents?.resumeUrl || ''}
+                onChange={(event) => updateDocuments({ resumeUrl: event.target.value })}
+                placeholder="/docs/rezume-charos-vohidova.pdf"
+                className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
+              />
+            </div>
+
+            <div className="rounded-3xl border border-white/70 bg-white/70 p-5">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+                  Sertifikatlar (URL)
+                </p>
+                <button
+                  type="button"
+                  onClick={addCertificate}
+                  className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--ink)] shadow-soft"
+                >
+                  Qo'shish
+                </button>
+              </div>
+
+              {certificates.length ? (
+                <div className="mt-4 space-y-3">
+                  {certificates.map((item, index) => (
+                    <div
+                      key={`${index}-${item}`}
+                      className="flex flex-wrap items-center gap-3 rounded-2xl border border-white/70 bg-white/80 p-3"
+                    >
+                      <input
+                        value={item}
+                        onChange={(event) => updateCertificate(index, event.target.value)}
+                        placeholder="/docs/certificates/sertifikat-1.jpg"
+                        className="min-w-[200px] flex-1 bg-transparent text-sm outline-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeCertificate(index)}
+                        className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
+                      >
+                        O'chirish
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-4 text-sm text-[color:var(--muted)]">
+                  Hozircha sertifikat qo'shilmagan.
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+
         <section className="rounded-3xl border border-white/70 bg-white/70 p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
@@ -242,7 +341,7 @@ function AdminSettingsForm() {
               </p>
               <h4 className="mt-2 font-display text-xl">3 ta manzil (tanlash bilan)</h4>
               <p className="mt-1 text-sm text-[color:var(--muted)]">
-                Contact bo‘limida foydalanuvchi lokatsiyani tanlay oladi.
+                Contact bo'limida foydalanuvchi lokatsiyani tanlay oladi.
               </p>
             </div>
             <button
@@ -414,4 +513,3 @@ function AdminSettingsForm() {
 }
 
 export default AdminSettingsForm
-

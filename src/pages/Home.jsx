@@ -11,6 +11,7 @@ import PromosSection from '../components/sections/PromosSection'
 import WorksSection from '../components/sections/WorksSection'
 import VideosSection from '../components/sections/VideosSection'
 import AboutSection from '../components/sections/AboutSection'
+import DocumentsSection from '../components/sections/DocumentsSection'
 import ReviewsSection from '../components/sections/ReviewsSection'
 import ContactSection from '../components/sections/ContactSection'
 import WorkModal from '../components/sections/WorkModal'
@@ -546,6 +547,7 @@ function Home() {
           loading={isBannersLoading}
         />
         <AboutSection image={doctorImage} doctor={primaryDoctor} loading={isDoctorsLoading} />
+        <DocumentsSection />
         <ReviewsSection testimonials={reviewItems} loading={isReviewsLoading} />
         <ContactSection />
       </main>

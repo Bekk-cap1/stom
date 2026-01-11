@@ -28,6 +28,11 @@ export const getDefaultSiteSettings = () => ({
   seoDescription:
     "Stomatolog uchun zamonaviy vitrina-sayt: haqiqiy ishlar, aksiyalar va qabulga yozilish.",
 
+  documents: {
+    resumeUrl: '/docs/rezume-charos-vohidova.pdf',
+    certificates: ['/docs/certificates/diplomlar.pdf'],
+  },
+
   primaryLocationId: 'jizzax-1',
   locations: [
     {
@@ -97,6 +102,17 @@ export const setSiteSettings = (next) => {
       .filter((loc) => loc.id)
   }
 
+  if (!payload?.documents || typeof payload.documents !== 'object') {
+    payload.documents = { resumeUrl: '', certificates: [] }
+  } else {
+    payload.documents = {
+      resumeUrl: String(payload.documents.resumeUrl || '').trim(),
+      certificates: Array.isArray(payload.documents.certificates)
+        ? payload.documents.certificates.map((item) => String(item || '').trim()).filter(Boolean)
+        : [],
+    }
+  }
+
   localStorage.setItem(SETTINGS_STORAGE_KEY, safeStringify(payload))
   window.dispatchEvent(new Event('stom:settings'))
 }
@@ -110,4 +126,3 @@ export const getPrimaryLocation = (settings) => {
   }
   return locations[0] || null
 }
-

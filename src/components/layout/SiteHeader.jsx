@@ -5,6 +5,7 @@ import { formatUzPhone, normalizeUzPhone } from '../../utils/phone'
 
 const navLinks = [
   { label: 'Shifokor haqida', href: '#about' },
+  { label: 'Hujjatlar', href: '#documents' },
   { label: 'Xizmatlar', href: '#services' },
   { label: 'Ishlar', href: '#works' },
   { label: 'Foto va aksiyalar', href: '#videos' },
