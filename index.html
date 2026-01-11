@@ -4,7 +4,20 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/public/IMG_6187.JPG" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Doktor Charos — 15 yillik tajribaga ega stomatolog</title>
+    <script>
+      ;(() => {
+        try {
+          const stored = localStorage.getItem('stom_theme')
+          const systemDark =
+            window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          const theme = stored || (systemDark ? 'dark' : 'light')
+          document.documentElement.dataset.theme = theme
+        } catch {
+          // ignore
+        }
+      })()
+    </script>
+    <title>Doktor Charos - 15 yillik tajribaga ega stomatolog</title>
     <meta
       name="description"
       content="Doktor Charos (15 yil tajriba). Xizmatlar: terapiya, ortodontiya, implantatsiya, estetika. Konsultatsiya va qabulga yozilish uchun bog'laning."

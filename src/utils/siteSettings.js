@@ -37,7 +37,7 @@ export const getDefaultSiteSettings = () => ({
       address: "Navoi ko'cha 5A uy",
       landmark: "Mo'ljal: Davlat xizmatlar markazi",
       phones: ['+998915963599', '+998722269469'],
-      mapQuery: "Jizzax Navoi ko'cha 5A uy Davlat xizmatlar markazi",
+      mapQuery: "40°06'50.9\"N 67°49'56.2\"E",
     },
     {
       id: 'toshkent-ius',
@@ -46,7 +46,7 @@ export const getDefaultSiteSettings = () => ({
       address: 'I&Us dental clinic',
       landmark: '',
       phones: ['+998941981118'],
-      mapQuery: 'Toshkent I&Us dental clinic',
+      mapQuery: '41°19\'56.3"N 69°17\'42.2"E',
     },
     {
       id: 'toshkent-ident',

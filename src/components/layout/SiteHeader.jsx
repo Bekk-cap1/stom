@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Instagram, Telegram, Tooth } from '../ui/Icons'
+import { Instagram, Moon, Sun, Telegram, Tooth } from '../ui/Icons'
 import { getPrimaryLocation, getSiteSettings } from '../../utils/siteSettings'
 import { formatUzPhone, normalizeUzPhone } from '../../utils/phone'
 
@@ -15,6 +15,10 @@ const navLinks = [
 function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false)
   const [siteSettings, setSiteSettings] = useState(() => getSiteSettings())
+  const [theme, setTheme] = useState(() => {
+    if (typeof document === 'undefined') return 'light'
+    return document.documentElement.dataset.theme || 'light'
+  })
 
   useEffect(() => {
     const syncSettings = () => setSiteSettings(getSiteSettings())
@@ -25,6 +29,12 @@ function SiteHeader() {
       window.removeEventListener('storage', syncSettings)
     }
   }, [])
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+    document.documentElement.dataset.theme = theme
+    localStorage.setItem('stom_theme', theme)
+  }, [theme])
 
   useEffect(() => {
     if (typeof document === 'undefined') return
@@ -93,6 +103,15 @@ function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
+              aria-label={theme === 'dark' ? "Yorug' rejimga o'tish" : "Qorong'i rejimga o'tish"}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/70 bg-white/80 text-[color:var(--muted)] shadow-soft transition hover:-translate-y-0.5 hover:text-[color:var(--ink)]"
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
+
             <div className="hidden items-center gap-2 sm:flex">
               <a
                 href={telegramUrl}
@@ -180,7 +199,7 @@ function SiteHeader() {
                       className="flex items-center justify-between rounded-2xl border border-white/70 bg-white/80 px-4 py-3"
                     >
                       {link.label}
-                      <span className="text-xs text-[color:var(--muted)]">{'›'}</span>
+                      <span className="text-xs text-[color:var(--muted)]">{'>'}</span>
                     </a>
                   ))}
                 </div>

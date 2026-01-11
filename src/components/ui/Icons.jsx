@@ -39,3 +39,21 @@ export const Instagram = ({ className }) => (
     />
   </svg>
 )
+
+export const Sun = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M12 18a6 6 0 110-12 6 6 0 010 12zm0-14.8a1 1 0 011 1V5a1 1 0 11-2 0V4.2a1 1 0 011-1zm0 15.8a1 1 0 011 1V20a1 1 0 11-2 0v-.99a1 1 0 011-1zM4.2 11a1 1 0 010 2H3a1 1 0 110-2h1.2zm17.8 0a1 1 0 010 2H20.8a1 1 0 110-2H22zM6.2 6.2a1 1 0 011.4 0l.7.7a1 1 0 11-1.4 1.4l-.7-.7a1 1 0 010-1.4zm11.1 11.1a1 1 0 011.4 0l.7.7a1 1 0 11-1.4 1.4l-.7-.7a1 1 0 010-1.4zM17.8 6.2a1 1 0 010 1.4l-.7.7a1 1 0 11-1.4-1.4l.7-.7a1 1 0 011.4 0zM8.3 17.3a1 1 0 010 1.4l-.7.7a1 1 0 11-1.4-1.4l.7-.7a1 1 0 011.4 0z"
+    />
+  </svg>
+)
+
+export const Moon = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M21 14.6A8.8 8.8 0 0110.4 3a7.9 7.9 0 1010.6 11.6z"
+    />
+  </svg>
+)

@@ -17,6 +17,18 @@
   --site-header-offset: 96px;
 }
 
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --ink: #eaf2ff;
+  --muted: #a7bed6;
+  --sea: #00ffd1;
+  --sky: #6aa2ff;
+  --sun: #ff4fd8;
+  --surface: #040713;
+  --card: rgba(10, 14, 28, 0.7);
+  --stroke: rgba(234, 242, 255, 0.14);
+}
+
 @media (min-width: 640px) {
   :root {
     --site-header-offset: 112px;
@@ -43,6 +55,14 @@
       radial-gradient(900px 600px at 60% 92%, rgba(255, 79, 216, 0.14), transparent 60%),
       linear-gradient(180deg, #f7fbff 0%, #f3f5ff 55%, #f6fffb 100%);
     overflow-x: hidden;
+  }
+
+  :root[data-theme='dark'] body {
+    background:
+      radial-gradient(900px 520px at 12% 8%, rgba(0, 255, 209, 0.16), transparent 55%),
+      radial-gradient(780px 520px at 88% 16%, rgba(106, 162, 255, 0.18), transparent 58%),
+      radial-gradient(900px 600px at 60% 92%, rgba(255, 79, 216, 0.12), transparent 60%),
+      linear-gradient(180deg, #040713 0%, #05081a 55%, #040915 100%);
   }
 
   #root {
@@ -82,6 +102,22 @@ body::after {
   animation: nebula-drift 22s ease-in-out infinite reverse;
 }
 
+:root[data-theme='dark'] body::before {
+  background:
+    radial-gradient(520px 360px at 18% 18%, rgba(0, 255, 209, 0.12), transparent 60%),
+    radial-gradient(520px 360px at 82% 14%, rgba(106, 162, 255, 0.12), transparent 60%),
+    radial-gradient(600px 420px at 64% 68%, rgba(255, 79, 216, 0.1), transparent 62%);
+  filter: blur(16px);
+}
+
+:root[data-theme='dark'] body::after {
+  background:
+    radial-gradient(620px 520px at 12% 88%, rgba(106, 162, 255, 0.1), transparent 62%),
+    radial-gradient(620px 520px at 88% 86%, rgba(0, 255, 209, 0.1), transparent 62%),
+    radial-gradient(620px 520px at 55% 45%, rgba(255, 79, 216, 0.08), transparent 62%);
+  filter: blur(20px);
+}
+
 #root::before {
   content: '';
   position: fixed;
@@ -96,6 +132,14 @@ body::after {
   mask-image: radial-gradient(60% 60% at 50% 30%, rgba(0, 0, 0, 0.9), transparent 75%);
   -webkit-mask-image: radial-gradient(60% 60% at 50% 30%, rgba(0, 0, 0, 0.9), transparent 75%);
   filter: saturate(1.2);
+}
+
+:root[data-theme='dark'] #root::before {
+  opacity: 0.22;
+  background-image:
+    linear-gradient(to right, rgba(106, 162, 255, 0.14) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 255, 209, 0.12) 1px, transparent 1px);
+  filter: saturate(1.1);
 }
 
 @keyframes float-sway {
@@ -148,6 +192,60 @@ body::after {
   input.border-white\/70,
   textarea.border-white\/70,
   select.border-white\/70 {
-    border-color: rgba(0, 0, 0, 0.1);
+    border-color: var(--stroke);
+  }
+
+  :root[data-theme='dark'] .border-white\/60,
+  :root[data-theme='dark'] .border-white\/70 {
+    border-color: var(--stroke) !important;
+  }
+
+  :root[data-theme='dark'] .bg-white\/70,
+  :root[data-theme='dark'] .bg-white\/80,
+  :root[data-theme='dark'] .bg-white\/85,
+  :root[data-theme='dark'] .bg-white\/90,
+  :root[data-theme='dark'] .bg-white\/95 {
+    background-color: var(--card) !important;
+  }
+
+  :root[data-theme='dark'] .ring-white\/70 {
+    --tw-ring-color: var(--stroke) !important;
+  }
+
+  :root[data-theme='dark'] .from-white\/90,
+  :root[data-theme='dark'] .from-white\/80,
+  :root[data-theme='dark'] .from-white\/70 {
+    --tw-gradient-from: rgba(10, 14, 28, 0.82) var(--tw-gradient-from-position);
+    --tw-gradient-to: rgba(10, 14, 28, 0) var(--tw-gradient-to-position);
+  }
+
+  :root[data-theme='dark'] .to-white\/70,
+  :root[data-theme='dark'] .to-white\/80 {
+    --tw-gradient-to: rgba(10, 14, 28, 0.72) var(--tw-gradient-to-position);
+  }
+
+  :root[data-theme='dark'] .via-white {
+    --tw-gradient-stops: var(--tw-gradient-from), rgba(7, 10, 20, 0.85)
+      var(--tw-gradient-via-position), var(--tw-gradient-to);
+  }
+
+  :root[data-theme='dark'] .from-sky-100,
+  :root[data-theme='dark'] .from-sky-100\/80 {
+    --tw-gradient-from: rgba(106, 162, 255, 0.22) var(--tw-gradient-from-position);
+    --tw-gradient-to: rgba(106, 162, 255, 0) var(--tw-gradient-to-position);
+  }
+
+  :root[data-theme='dark'] .to-emerald-100,
+  :root[data-theme='dark'] .to-emerald-100\/60 {
+    --tw-gradient-to: rgba(0, 255, 209, 0.16) var(--tw-gradient-to-position);
+  }
+
+  :root[data-theme='dark'] .from-emerald-100\/80 {
+    --tw-gradient-from: rgba(0, 255, 209, 0.16) var(--tw-gradient-from-position);
+    --tw-gradient-to: rgba(0, 255, 209, 0) var(--tw-gradient-to-position);
+  }
+
+  :root[data-theme='dark'] .to-sky-100\/70 {
+    --tw-gradient-to: rgba(106, 162, 255, 0.18) var(--tw-gradient-to-position);
   }
 }
