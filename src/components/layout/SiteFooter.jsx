@@ -25,7 +25,7 @@ function SiteFooter() {
           target="_blank"
           rel="noreferrer"
         >
-          @bekk_cap1
+          @bekk_cap1 & @Bol_F
         </a>
       </div>
     </footer>
