@@ -18,6 +18,7 @@ import { workGradientPairs, seoDefaults, mediaPlaceholders } from '../data/siteD
 import { formatDigitsInText, formatNumberWithSpaces } from '../utils/formatNumbers'
 import { buildHomeSeo } from '../utils/seo'
 import { computeAvailability } from '../utils/availability'
+import { getSiteSettings } from '../utils/siteSettings'
 
 const normalizeImageList = (value) => {
   if (!value) return []
@@ -484,6 +485,7 @@ function Home() {
   }, [serviceItems])
 
   const { title, description } = useMemo(() => {
+    const siteSettings = getSiteSettings()
     const autoSeo = buildHomeSeo({
       doctor: primaryDoctor,
       services: serviceItems,
@@ -492,8 +494,12 @@ function Home() {
     })
 
     return {
-      title: seoPage?.meta_title || autoSeo.title || seoDefaults.title,
-      description: seoPage?.meta_description || autoSeo.description || seoDefaults.description,
+      title: seoPage?.meta_title || siteSettings?.seoTitle || autoSeo.title || seoDefaults.title,
+      description:
+        seoPage?.meta_description ||
+        siteSettings?.seoDescription ||
+        autoSeo.description ||
+        seoDefaults.description,
     }
   }, [primaryDoctor, seoPage, serviceItems])
 

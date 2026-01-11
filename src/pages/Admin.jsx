@@ -18,6 +18,7 @@ import AdminServicesManager from '../components/admin/AdminServicesManager'
 import AdminTelegramBotManager from '../components/admin/AdminTelegramBotManager'
 import AdminUsersManager from '../components/admin/AdminUsersManager'
 import AdminWorksManager from '../components/admin/AdminWorksManager'
+import AdminSettingsForm from '../components/admin/AdminSettingsForm'
 
 function Admin() {
   const usersStorageKey = 'stom_users'
@@ -143,6 +144,7 @@ function Admin() {
     const items = [
       { id: 'overview', label: 'Umumiy' },
       { id: 'patients', label: 'Bemorlar' },
+      { id: 'settings', label: 'Sozlamalar' },
       { id: 'users', label: 'Foydalanuvchilar' },
       { id: 'doctors', label: 'Shifokorlar' },
       { id: 'services', label: 'Xizmatlar' },
@@ -183,6 +185,7 @@ function Admin() {
         ) : null}
         <AdminPatientsStats patients={patients} />
         <AdminPatientsManager patients={patients} setPatients={setPatients} />
+        <AdminSettingsForm />
         {/* {sectionAccess.users !== false ? (
           <AdminUsersManager users={users} setUsers={setUsers} />
         ) : null} */}

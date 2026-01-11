@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { getSiteSettings } from '../../utils/siteSettings'
 
 const formatDayLabel = (date, index) => {
   const day = new Date(date)
@@ -26,10 +27,26 @@ function HeroSection({
   loadingAvailability,
   loading,
 }) {
+  const [siteSettings, setSiteSettings] = useState(() => getSiteSettings())
+
+  useEffect(() => {
+    const syncSettings = () => setSiteSettings(getSiteSettings())
+    window.addEventListener('stom:settings', syncSettings)
+    window.addEventListener('storage', syncSettings)
+    return () => {
+      window.removeEventListener('stom:settings', syncSettings)
+      window.removeEventListener('storage', syncSettings)
+    }
+  }, [])
+
   const doctorName = doctor?.user?.full_name || doctor?.user?.username || ''
-  const heroTitle = doctorName ? `Doktor ${doctorName}` : 'Stomatologning shaxsiy sayti'
-  const heroSubtitle = doctor?.specialization || 'haqiqiy oldin/keyin keyslar bilan'
+  const heroTitle =
+    siteSettings?.heroTitle?.trim() ||
+    (doctorName ? `Doktor ${doctorName}` : 'Stomatologning shaxsiy sayti')
+  const heroSubtitle =
+    siteSettings?.heroSubtitle?.trim() || doctor?.specialization || 'haqiqiy oldin/keyin keyslar bilan'
   const heroDescription =
+    siteSettings?.heroDescription?.trim() ||
     doctor?.bio ||
     "Zamonaviy yondashuv, davolash fotoprotokollari va har bir bemorga ehtiyotkor g'amxo'rlik."
 
@@ -100,7 +117,7 @@ function HeroSection({
       <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)] shadow-soft">
-            Charos Karabekovna
+            {siteSettings?.heroBadge?.trim() || doctorName || siteSettings?.clinicName || 'stomatologiya'}
             <span className="h-2 w-2 rounded-full bg-[color:var(--sea)] animate-pulse-soft" />
           </div>
           <h1 className="mt-6 font-display text-4xl leading-tight sm:text-5xl lg:text-6xl">
