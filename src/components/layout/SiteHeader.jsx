@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Instagram, Telegram, Tooth } from '../ui/Icons'
-import { getSiteSettings } from '../../utils/siteSettings'
+import { getPrimaryLocation, getSiteSettings } from '../../utils/siteSettings'
+import { formatUzPhone, normalizeUzPhone } from '../../utils/phone'
 
 const navLinks = [
   { label: 'Shifokor haqida', href: '#about' },
@@ -50,11 +51,14 @@ function SiteHeader() {
     import.meta.env.VITE_INSTAGRAM_URL ||
     'https://instagram.com/clinic'
 
-  const phoneDisplay = siteSettings?.phone || '+998 91 596 35 99'
+  const primaryLocation = getPrimaryLocation(siteSettings)
+  const rawPhone = primaryLocation?.phones?.[0] || siteSettings?.phone || '+998 91 596 35 99'
+  const phoneDisplay = formatUzPhone(rawPhone).trim()
   const phoneHref = useMemo(() => {
-    const digits = String(phoneDisplay || '').replace(/\D/g, '')
+    const normalized = normalizeUzPhone(rawPhone) || rawPhone
+    const digits = String(normalized || '').replace(/\D/g, '')
     return digits ? `tel:+${digits}` : 'tel:+998915963599'
-  }, [phoneDisplay])
+  }, [rawPhone])
 
   const brandName = siteSettings?.clinicName || 'Charos'
 
@@ -228,4 +232,3 @@ function SiteHeader() {
 }
 
 export default SiteHeader
-

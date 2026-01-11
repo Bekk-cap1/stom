@@ -1,7 +1,8 @@
-﻿import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { apiFetch } from '../../api/client'
 import { sendTelegramLead } from '../../utils/telegram'
 import { formatUzPhone, isValidUzPhone, normalizeUzPhone } from '../../utils/phone'
+import { getPrimaryLocation, getSiteSettings } from '../../utils/siteSettings'
 
 const initialForm = {
   name: '',
@@ -10,6 +11,23 @@ const initialForm = {
 }
 
 function ContactSection() {
+  const siteSettings = getSiteSettings()
+  const locations = Array.isArray(siteSettings?.locations) ? siteSettings.locations : []
+  const defaultLocation = getPrimaryLocation(siteSettings)
+
+  const [activeLocationId, setActiveLocationId] = useState(
+    defaultLocation?.id || locations[0]?.id || '',
+  )
+
+  const activeLocation = useMemo(() => {
+    return (
+      locations.find((loc) => loc.id === activeLocationId) ||
+      defaultLocation ||
+      locations[0] ||
+      null
+    )
+  }, [activeLocationId, defaultLocation, locations])
+
   const [form, setForm] = useState(initialForm)
   const [status, setStatus] = useState('idle')
   const [error, setError] = useState('')
@@ -69,6 +87,18 @@ function ContactSection() {
     }
   }
 
+  const whatsappUrl = siteSettings?.whatsapp || 'https://wa.me/998915963599'
+  const telegramUrl = siteSettings?.telegram || 'https://t.me/bekk_cap1'
+
+  const phonesToShow = useMemo(() => {
+    const list = activeLocation?.phones?.length ? activeLocation.phones : []
+    if (list.length) return list
+    return siteSettings?.phone ? [siteSettings.phone] : []
+  }, [activeLocation?.phones, siteSettings?.phone])
+
+  const mapQuery =
+    activeLocation?.mapQuery || activeLocation?.address || siteSettings?.address || 'Uzbekistan'
+
   return (
     <section id="contact" className="px-6 pb-20">
       <div className="mx-auto max-w-6xl">
@@ -83,7 +113,7 @@ function ContactSection() {
           </div>
           <div className="flex flex-wrap gap-3">
             <a
-              href="https://wa.me/998915963599"
+              href={whatsappUrl}
               className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)] shadow-soft transition hover:-translate-y-0.5"
               target="_blank"
               rel="noreferrer"
@@ -91,7 +121,7 @@ function ContactSection() {
               WhatsApp
             </a>
             <a
-              href="https://t.me/bekk_cap1"
+              href={telegramUrl}
               className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)] shadow-soft transition hover:-translate-y-0.5"
               target="_blank"
               rel="noreferrer"
@@ -100,6 +130,7 @@ function ContactSection() {
             </a>
           </div>
         </div>
+
         <div className="mt-8 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <form
             className="rounded-3xl border border-white/70 bg-white/80 p-6 shadow-soft"
@@ -139,6 +170,7 @@ function ContactSection() {
                 />
               </div>
             </div>
+
             <div className="mt-4">
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
                 Shikoyat / xabar
@@ -152,6 +184,7 @@ function ContactSection() {
                 className="mt-2 w-full resize-none rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-[color:var(--sky)]"
               />
             </div>
+
             <button
               type="submit"
               disabled={status === 'sending'}
@@ -159,6 +192,7 @@ function ContactSection() {
             >
               {status === 'sending' ? 'Yuborilmoqda...' : "So'rov yuborish"}
             </button>
+
             {error ? <p className="mt-3 text-xs text-red-500">{error}</p> : null}
             {status === 'success' ? (
               <p className="mt-3 text-xs text-[color:var(--muted)]">
@@ -169,20 +203,65 @@ function ContactSection() {
               Tugmani bosish orqali shaxsiy ma'lumotlaringizni qayta ishlashga rozilik bildirasiz.
             </p>
           </form>
+
           <div className="rounded-3xl border border-white/70 bg-white/80 p-6 shadow-soft">
-            <div className="space-y-4 text-sm text-[color:var(--muted)]">
+            {locations.length > 1 ? (
+              <div className="flex flex-wrap gap-2">
+                {locations.map((loc) => (
+                  <button
+                    key={loc.id}
+                    type="button"
+                    onClick={() => setActiveLocationId(loc.id)}
+                    className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
+                      loc.id === activeLocationId
+                        ? 'bg-[color:var(--sky)] text-white'
+                        : 'border border-white/70 bg-white/80 text-[color:var(--muted)]'
+                    }`}
+                  >
+                    {loc.city ? `${loc.city}: ` : ''}
+                    {loc.name || loc.address || 'Lokatsiya'}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+
+            <div className="mt-4 space-y-4 text-sm text-[color:var(--muted)]">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em]">Manzil</p>
                 <p className="mt-2 text-base text-[color:var(--ink)]">
-                  Toshkent, Navoiy ko'chasi, 12
+                  {activeLocation?.city ? `${activeLocation.city}, ` : ''}
+                  {activeLocation?.address || siteSettings?.address || ''}
                 </p>
+                {activeLocation?.landmark ? (
+                  <p className="mt-1 text-xs text-[color:var(--muted)]">
+                    {activeLocation.landmark}
+                  </p>
+                ) : null}
               </div>
+
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em]">Telefon</p>
-                <p className="mt-2 text-base text-[color:var(--ink)]">
-                  +998 91 596 35 99
-                </p>
+                <div className="mt-2 space-y-1">
+                  {phonesToShow.map((phone) => {
+                    const formatted = formatUzPhone(phone).trim()
+                    const normalized = normalizeUzPhone(phone)
+                    const digits = normalized
+                      ? normalized.replace(/\D/g, '')
+                      : String(phone).replace(/\D/g, '')
+                    const href = digits ? `tel:+${digits}` : '#'
+                    return (
+                      <a
+                        key={`${activeLocation?.id || 'main'}-${phone}`}
+                        href={href}
+                        className="block text-base font-semibold text-[color:var(--ink)]"
+                      >
+                        {formatted}
+                      </a>
+                    )
+                  })}
+                </div>
               </div>
+
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em]">Ish vaqti</p>
                 <p className="mt-2 text-base text-[color:var(--ink)]">
@@ -190,10 +269,13 @@ function ContactSection() {
                 </p>
               </div>
             </div>
+
             <div className="mt-6 overflow-hidden rounded-2xl">
               <iframe
                 title="Klinika xaritasi"
-                src="https://maps.google.com/maps?q=Tashkent&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(
+                  mapQuery,
+                )}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
                 className="h-48 w-full border-0"
                 loading="lazy"
               />
