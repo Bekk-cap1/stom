@@ -26,7 +26,7 @@ function AdminLogin() {
       const redirectTo = location.state?.from?.pathname || '/admin'
       navigate(redirectTo, { replace: true })
     } catch (err) {
-      setError(err.message || 'Не удалось войти')
+      setError(err.message || 'Kirish amalga oshmadi')
     } finally {
       setLoading(false)
     }
@@ -35,8 +35,8 @@ function AdminLogin() {
   return (
     <>
       <SeoHead
-        title="Вход в админ-панель"
-        description="Авторизация администратора стоматологической клиники."
+        title="Admin panelga kirish"
+        description="Stomatologiya klinikasi administratori uchun avtorizatsiya."
         robots="noindex, nofollow"
         ogType="website"
       />
@@ -45,15 +45,15 @@ function AdminLogin() {
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--muted)]">
             admin
           </p>
-          <h1 className="mt-3 font-display text-3xl">Вход в админ-панель</h1>
+          <h1 className="mt-3 font-display text-3xl">Admin panelga kirish</h1>
           <p className="mt-2 text-sm text-[color:var(--muted)]">
-            Введите логин и пароль администратора.
+            Administrator login va parolini kiriting.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Логин
+                Login
               </label>
               <input
                 name="username"
@@ -64,7 +64,7 @@ function AdminLogin() {
             </div>
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Пароль
+                Parol
               </label>
               <input
                 type="password"
@@ -80,7 +80,7 @@ function AdminLogin() {
               disabled={loading}
               className="w-full rounded-2xl bg-[color:var(--sky)] px-5 py-3 text-sm font-semibold text-white shadow-soft transition disabled:opacity-60"
             >
-              {loading ? 'Входим...' : 'Войти'}
+              {loading ? 'Kirilmoqda...' : 'Kirish'}
             </button>
           </form>
         </div>

@@ -27,12 +27,12 @@ function AdminDoctorsManager({ doctors, setDoctors, users }) {
     setError('')
 
     if (!form.user_id) {
-      setError('Выберите пользователя для врача')
+      setError('Shifokor uchun foydalanuvchini tanlang')
       return
     }
 
     if (!form.specialization.trim()) {
-      setError('Укажите специализацию врача')
+      setError('Shifokor mutaxassisligini kiriting')
       return
     }
 
@@ -97,12 +97,12 @@ function AdminDoctorsManager({ doctors, setDoctors, users }) {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            врачи
+            shifokorlar
           </p>
-          <h3 className="mt-2 font-display text-2xl">Команда врачей</h3>
+          <h3 className="mt-2 font-display text-2xl">Shifokorlar jamoasi</h3>
         </div>
         <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {doctors.length} специалистов
+          {doctors.length} mutaxassis
         </span>
       </div>
 
@@ -110,7 +110,7 @@ function AdminDoctorsManager({ doctors, setDoctors, users }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Пользователь
+              Foydalanuvchi
             </label>
             <select
               name="user_id"
@@ -118,34 +118,34 @@ function AdminDoctorsManager({ doctors, setDoctors, users }) {
               onChange={handleChange}
               className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             >
-              <option value="">Выберите пользователя</option>
+              <option value="">Foydalanuvchini tanlang</option>
               {users.map((user) => (
                 <option key={user.id || user.username} value={user.id || ''} disabled={!user.id}>
-                  {user.full_name || user.username || user.email || 'Пользователь'}
+                  {user.full_name || user.username || user.email || 'Foydalanuvchi'}
                 </option>
               ))}
             </select>
             {!users.length ? (
               <p className="mt-2 text-xs text-[color:var(--muted)]">
-                Сначала добавьте пользователя в разделе «Пользователи».
+                Avval foydalanuvchini «Foydalanuvchilar» bo‘limida qo‘shing.
               </p>
             ) : null}
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Специализация
+              Mutaxassislik
             </label>
             <input
               name="specialization"
               value={form.specialization}
               onChange={handleChange}
-              placeholder="Терапевт, ортопед"
+              placeholder="Terapevt, ortoped"
               className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Опыт (лет)
+              Tajriba (yil)
             </label>
             <input
               name="experience_years"
@@ -159,7 +159,7 @@ function AdminDoctorsManager({ doctors, setDoctors, users }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Биография
+              Biografiya
             </label>
             <textarea
               name="bio"
@@ -176,7 +176,7 @@ function AdminDoctorsManager({ doctors, setDoctors, users }) {
               checked={form.is_active}
               onChange={handleChange}
             />
-            Активен
+            Faol
           </label>
           {error ? <p className="text-sm text-red-500">{error}</p> : null}
           <div className="flex flex-wrap items-center gap-3">
@@ -184,7 +184,7 @@ function AdminDoctorsManager({ doctors, setDoctors, users }) {
               type="submit"
               className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft"
             >
-              {editingId ? 'Сохранить' : 'Добавить врача'}
+              {editingId ? 'Saqlash' : 'Shifokor qo‘shish'}
             </button>
             <button
               type="button"
@@ -195,7 +195,7 @@ function AdminDoctorsManager({ doctors, setDoctors, users }) {
               }}
               className="rounded-full border border-white/70 bg-white/80 px-5 py-2 text-sm font-semibold text-[color:var(--muted)]"
             >
-              Сбросить
+              Tozalash
             </button>
           </div>
         </div>
@@ -210,7 +210,7 @@ function AdminDoctorsManager({ doctors, setDoctors, users }) {
             <div>
               <p className="font-semibold text-[color:var(--ink)]">{item.specialization}</p>
               <p className="text-xs text-[color:var(--muted)]">
-                {item.user?.full_name || item.user?.username || 'Пользователь'}
+                {item.user?.full_name || item.user?.username || 'Foydalanuvchi'}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -221,21 +221,21 @@ function AdminDoctorsManager({ doctors, setDoctors, users }) {
                     : 'bg-slate-200 text-slate-500'
                 }`}
               >
-                {item.is_active !== false ? 'активен' : 'выключен'}
+                {item.is_active !== false ? 'faol' : 'o‘chirilgan'}
               </span>
               <button
                 type="button"
                 onClick={() => handleEdit(item)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Редактировать
+                Tahrirlash
               </button>
               <button
                 type="button"
                 onClick={() => handleDelete(item.id)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Удалить
+                O‘chirish
               </button>
             </div>
           </div>

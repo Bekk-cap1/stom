@@ -72,7 +72,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
     setError('')
 
     if (!form.title.trim() || !form.start_date || !form.end_date) {
-      setError('Заполните название и даты акции')
+      setError('Aksiya nomi va sanalarini to‘ldiring')
       return
     }
 
@@ -130,12 +130,12 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            акции
+            aksiyalar
           </p>
-          <h3 className="mt-2 font-display text-2xl">Скидки и спецпредложения</h3>
+          <h3 className="mt-2 font-display text-2xl">Chegirmalar va maxsus takliflar</h3>
         </div>
         <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {discounts.length} предложений
+          {discounts.length} taklif
         </span>
       </div>
 
@@ -143,19 +143,19 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Название
+              Nomi
             </label>
             <input
               name="title"
               value={form.title}
               onChange={handleChange}
-              placeholder="Гигиена + AirFlow"
+              placeholder="Gigiyena + AirFlow"
               className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Описание
+              Tavsif
             </label>
             <textarea
               name="description"
@@ -168,7 +168,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Скидка (%)
+                Chegirma (%)
               </label>
               <input
                 inputMode="numeric"
@@ -181,7 +181,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
             </div>
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Цена со скидкой
+                Chegirmali narx
               </label>
               <input
                 inputMode="numeric"
@@ -198,7 +198,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Старт
+                Boshlanish
               </label>
               <input
                 type="date"
@@ -210,7 +210,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
             </div>
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Финиш
+                Tugash
               </label>
               <input
                 type="date"
@@ -223,7 +223,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Услуги
+              Xizmatlar
             </label>
             <select
               multiple
@@ -238,7 +238,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
               ))}
             </select>
             <p className="mt-2 text-xs text-[color:var(--muted)]">
-              Удерживайте Ctrl или Cmd для выбора нескольких услуг.
+              Bir nechta xizmatni tanlash uchun Ctrl yoki Cmd ni bosib turing.
             </p>
           </div>
           <label className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
@@ -248,7 +248,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
               checked={form.is_active}
               onChange={handleChange}
             />
-            Активно
+            Faol
           </label>
           {error ? <p className="text-sm text-red-500">{error}</p> : null}
           <div className="flex flex-wrap items-center gap-3">
@@ -256,7 +256,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
               type="submit"
               className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft"
             >
-              {editingId ? 'Сохранить' : 'Добавить акцию'}
+              {editingId ? 'Saqlash' : 'Aksiya qo‘shish'}
             </button>
             <button
               type="button"
@@ -267,7 +267,7 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
               }}
               className="rounded-full border border-white/70 bg-white/80 px-5 py-2 text-sm font-semibold text-[color:var(--muted)]"
             >
-              Сбросить
+              Tozalash
             </button>
           </div>
         </div>
@@ -293,21 +293,21 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
                     : 'bg-slate-200 text-slate-500'
                 }`}
               >
-                {item.is_active !== false ? 'активно' : 'выключено'}
+                {item.is_active !== false ? 'faol' : 'o‘chirilgan'}
               </span>
               <button
                 type="button"
                 onClick={() => handleEdit(item)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Редактировать
+                Tahrirlash
               </button>
               <button
                 type="button"
                 onClick={() => handleDelete(item.id)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Удалить
+                O‘chirish
               </button>
             </div>
           </div>

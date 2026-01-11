@@ -8,7 +8,7 @@ function ProtectedRoute({ children }) {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[color:var(--surface)] text-sm text-[color:var(--muted)]">
-        Проверка доступа...
+        Kirish huquqi tekshirilmoqda...
       </div>
     )
   }

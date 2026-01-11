@@ -22,12 +22,12 @@ function AdminContactRequestsManager({ requests, setRequests }) {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            контакты
+            kontaktlar
           </p>
-          <h3 className="mt-2 font-display text-2xl">Заявки с сайта</h3>
+          <h3 className="mt-2 font-display text-2xl">Saytdan kelgan so‘rovlar</h3>
         </div>
         <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {requests.length} обращений
+          {requests.length} murojaat
         </span>
       </div>
 
@@ -51,7 +51,7 @@ function AdminContactRequestsManager({ requests, setRequests }) {
               onClick={() => handleDelete(item.id)}
               className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
             >
-              Удалить
+              O‘chirish
             </button>
           </div>
         ))}

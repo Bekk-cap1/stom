@@ -4,12 +4,12 @@
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            обзор
+            umumiy
           </p>
-          <h3 className="mt-2 font-display text-2xl">Статус контента</h3>
+          <h3 className="mt-2 font-display text-2xl">Kontent holati</h3>
         </div>
         <p className="text-sm text-[color:var(--muted)]">
-          Последнее обновление: сегодня
+          Oxirgi yangilanish: bugun
         </p>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

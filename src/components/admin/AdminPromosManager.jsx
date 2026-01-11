@@ -28,7 +28,7 @@ function AdminPromosManager({ promos, setPromos }) {
       id: editingId || `promo-${Date.now()}`,
       title: form.title.trim(),
       discount: form.discount.trim() || '-10%',
-      valid: form.valid.trim() || 'по согласованию',
+      valid: form.valid.trim() || 'kelishuv bo‘yicha',
       description: form.description.trim(),
       enabled: form.enabled,
     }
@@ -68,12 +68,12 @@ function AdminPromosManager({ promos, setPromos }) {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            акции
+            aksiyalar
           </p>
-          <h3 className="mt-2 font-display text-2xl">Скидки и спецпредложения</h3>
+          <h3 className="mt-2 font-display text-2xl">Chegirmalar va maxsus takliflar</h3>
         </div>
         <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {promos.length} предложений
+          {promos.length} taklif
         </span>
       </div>
 
@@ -81,20 +81,20 @@ function AdminPromosManager({ promos, setPromos }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Название акции
+              Aksiya nomi
             </label>
             <input
               name="title"
               value={form.title}
               onChange={handleChange}
-              placeholder="Например: гигиена + AirFlow"
+              placeholder="Masalan: gigiyena + AirFlow"
               className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Скидка
+                Chegirma
               </label>
               <input
                 name="discount"
@@ -106,29 +106,29 @@ function AdminPromosManager({ promos, setPromos }) {
             </div>
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Срок действия
+                Amal qilish muddati
               </label>
               <input
-                name="valid"
-                value={form.valid}
-                onChange={handleChange}
-                placeholder="до 30 апреля"
-                className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
-              />
+              name="valid"
+              value={form.valid}
+              onChange={handleChange}
+              placeholder="30 aprelgacha"
+              className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
+            />
             </div>
           </div>
         </div>
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Описание
+              Tavsif
             </label>
             <textarea
               name="description"
               value={form.description}
               onChange={handleChange}
               rows="3"
-              placeholder="Что входит в акцию"
+              placeholder="Aksiyaga nimalar kiradi"
               className="mt-2 w-full resize-none rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
@@ -139,14 +139,14 @@ function AdminPromosManager({ promos, setPromos }) {
               checked={form.enabled}
               onChange={handleChange}
             />
-            Активно
+            Faol
           </label>
           <div className="flex flex-wrap items-center gap-3">
             <button
               type="submit"
               className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft"
             >
-              {editingId ? 'Сохранить' : 'Добавить акцию'}
+              {editingId ? 'Saqlash' : 'Aksiya qo‘shish'}
             </button>
             <button
               type="button"
@@ -156,7 +156,7 @@ function AdminPromosManager({ promos, setPromos }) {
               }}
               className="rounded-full border border-white/70 bg-white/80 px-5 py-2 text-sm font-semibold text-[color:var(--muted)]"
             >
-              Сбросить
+              Tozalash
             </button>
           </div>
         </div>
@@ -182,21 +182,21 @@ function AdminPromosManager({ promos, setPromos }) {
                     : 'bg-slate-200 text-slate-500'
                 }`}
               >
-                {item.enabled !== false ? 'активно' : 'выключено'}
+                {item.enabled !== false ? 'faol' : 'o‘chirilgan'}
               </span>
               <button
                 type="button"
                 onClick={() => handleEdit(item)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Редактировать
+                Tahrirlash
               </button>
               <button
                 type="button"
                 onClick={() => handleDelete(item.id)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Удалить
+                O‘chirish
               </button>
             </div>
           </div>

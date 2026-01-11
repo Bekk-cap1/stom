@@ -1,16 +1,16 @@
 ﻿import { useMemo, useState } from 'react'
 
 function WorksSection({ works, onOpenWork, loading }) {
-  const [activeType, setActiveType] = useState('Все')
-  const [activeDate, setActiveDate] = useState('Все')
+  const [activeType, setActiveType] = useState('Barchasi')
+  const [activeDate, setActiveDate] = useState('Barchasi')
 
-  const workTypes = ['Все', ...new Set(works.map((work) => work.type).filter(Boolean))]
-  const workDates = ['Все', ...new Set(works.map((work) => work.date).filter(Boolean))]
+  const workTypes = ['Barchasi', ...new Set(works.map((work) => work.type).filter(Boolean))]
+  const workDates = ['Barchasi', ...new Set(works.map((work) => work.date).filter(Boolean))]
 
   const filteredWorks = useMemo(() => {
     return works.filter((work) => {
-      const typeMatch = activeType === 'Все' || work.type === activeType
-      const dateMatch = activeDate === 'Все' || work.date === activeDate
+      const typeMatch = activeType === 'Barchasi' || work.type === activeType
+      const dateMatch = activeDate === 'Barchasi' || work.date === activeDate
       return typeMatch && dateMatch
     })
   }, [activeDate, activeType, works])
@@ -21,10 +21,10 @@ function WorksSection({ works, onOpenWork, loading }) {
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              наши работы
+              bizning ishlar
             </p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl">
-              Галерея {'<'}до / после{'>'}
+              Galereya {'<'}oldin / keyin{'>'}
             </h2>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -59,7 +59,7 @@ function WorksSection({ works, onOpenWork, loading }) {
           </div>
         </div>
         {loading && !works.length ? (
-          <p className="mt-6 text-sm text-[color:var(--muted)]">Загружаем галерею...</p>
+          <p className="mt-6 text-sm text-[color:var(--muted)]">Galereya yuklanmoqda...</p>
         ) : null}
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           {filteredWorks.map((work) => (
@@ -78,7 +78,7 @@ function WorksSection({ works, onOpenWork, loading }) {
                 </span>
               </div>
               <div className="mt-4 grid grid-cols-2 gap-3">
-                {['до', 'после'].map((label, index) => {
+                {['oldin', 'keyin'].map((label, index) => {
                   const imageUrl =
                     index === 0 ? work.beforeImages?.[0] : work.afterImages?.[0]
                   const fallbackClass =
@@ -94,7 +94,7 @@ function WorksSection({ works, onOpenWork, loading }) {
                       {imageUrl ? (
                         <img
                           src={imageUrl}
-                          alt={`Фото ${label}`}
+                          alt={`Foto ${label}`}
                           className="h-full w-full object-cover"
                           loading="lazy"
                         />

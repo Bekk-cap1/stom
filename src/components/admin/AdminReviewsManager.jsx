@@ -37,7 +37,7 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
     setError('')
 
     if (!form.doctor || !form.comment.trim()) {
-      setError('Выберите врача и заполните комментарий')
+      setError('Shifokorni tanlang va izohni to‘ldiring')
       return
     }
 
@@ -112,12 +112,12 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            отзывы
+            fikrlar
           </p>
-          <h3 className="mt-2 font-display text-2xl">Модерация отзывов</h3>
+          <h3 className="mt-2 font-display text-2xl">Fikrlarni moderatsiya qilish</h3>
         </div>
         <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {reviews.length} отзывов
+          {reviews.length} fikr
         </span>
       </div>
 
@@ -126,7 +126,7 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Врач
+                Shifokor
               </label>
               <select
                 name="doctor"
@@ -134,7 +134,7 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
                 onChange={handleChange}
                 className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
               >
-                <option value="">Выберите врача</option>
+                <option value="">Shifokorni tanlang</option>
                 {doctors.map((doctor) => (
                   <option key={doctor.id} value={doctor.id}>
                     {doctor.user?.full_name || doctor.user?.username || doctor.specialization}
@@ -144,7 +144,7 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
             </div>
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Работа (опционально)
+                Ish (ixtiyoriy)
               </label>
               <select
                 name="work"
@@ -152,7 +152,7 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
                 onChange={handleChange}
                 className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
               >
-                <option value="">Без привязки</option>
+                <option value="">Bog‘lamasdan</option>
                 {works.map((work) => (
                   <option key={work.id} value={work.id}>
                     {work.title}
@@ -163,14 +163,14 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Комментарий
+              Izoh
             </label>
             <textarea
               name="comment"
               value={form.comment}
               onChange={handleChange}
               rows="3"
-              placeholder="Текст отзыва"
+              placeholder="Fikr matni"
               className="mt-2 w-full resize-none rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
@@ -178,7 +178,7 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Рейтинг
+              Reyting
             </label>
             <select
               name="rating"
@@ -188,7 +188,7 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
             >
               {[5, 4, 3, 2, 1].map((value) => (
                 <option key={value} value={value}>
-                  {value} звезд
+                  {value} yulduz
                 </option>
               ))}
             </select>
@@ -199,7 +199,7 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
               type="submit"
               className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft"
             >
-              {editingId ? 'Сохранить' : 'Добавить отзыв'}
+              {editingId ? 'Saqlash' : 'Fikr qo‘shish'}
             </button>
             <button
               type="button"
@@ -210,7 +210,7 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
               }}
               className="rounded-full border border-white/70 bg-white/80 px-5 py-2 text-sm font-semibold text-[color:var(--muted)]"
             >
-              Сбросить
+              Tozalash
             </button>
           </div>
         </div>
@@ -225,7 +225,7 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
             <div>
               <p className="font-semibold text-[color:var(--ink)]">{item.comment}</p>
               <p className="text-xs text-[color:var(--muted)]">
-                Рейтинг: {item.rating} · ID врача: {item.doctor}
+                Reyting: {item.rating} · Shifokor ID: {item.doctor}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -236,28 +236,28 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
                     : 'bg-slate-200 text-slate-500'
                 }`}
               >
-                {item.is_approved ? 'одобрено' : 'на модерации'}
+                {item.is_approved ? 'tasdiqlangan' : 'moderatsiyada'}
               </span>
               <button
                 type="button"
                 onClick={() => handleApprove(item.id)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Одобрить
+                Tasdiqlash
               </button>
               <button
                 type="button"
                 onClick={() => handleEdit(item)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Редактировать
+                Tahrirlash
               </button>
               <button
                 type="button"
                 onClick={() => handleDelete(item.id)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Удалить
+                O‘chirish
               </button>
             </div>
           </div>

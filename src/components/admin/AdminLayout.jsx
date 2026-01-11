@@ -2,18 +2,18 @@
 import { useAuth } from '../../auth/AuthContext'
 
 const defaultNavItems = [
-  { id: 'overview', label: 'Обзор' },
-  { id: 'patients', label: 'Пациенты' },
-  { id: 'users', label: 'Пользователи' },
-  { id: 'doctors', label: 'Врачи' },
-  { id: 'services', label: 'Услуги' },
-  { id: 'works', label: 'Работы' },
-  { id: 'banners', label: 'Баннеры' },
-  { id: 'discounts', label: 'Акции' },
-  { id: 'reviews', label: 'Отзывы' },
+  { id: 'overview', label: 'Umumiy' },
+  { id: 'patients', label: 'Bemorlar' },
+  { id: 'users', label: 'Foydalanuvchilar' },
+  { id: 'doctors', label: 'Shifokorlar' },
+  { id: 'services', label: 'Xizmatlar' },
+  { id: 'works', label: 'Ishlar' },
+  { id: 'banners', label: 'Bannerlar' },
+  { id: 'discounts', label: 'Aksiyalar' },
+  { id: 'reviews', label: 'Fikrlar' },
   { id: 'seo', label: 'SEO' },
-  { id: 'appointments', label: 'Записи' },
-  { id: 'contacts', label: 'Контакты' },
+  { id: 'appointments', label: 'Qabullar' },
+  { id: 'contacts', label: 'Kontaktlar' },
 ]
 
 function AdminLayout({ children, navItems = defaultNavItems }) {
@@ -27,23 +27,23 @@ function AdminLayout({ children, navItems = defaultNavItems }) {
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--muted)]">
               admin
             </p>
-            <h1 className="mt-3 font-display text-2xl">Панель управления</h1>
+            <h1 className="mt-3 font-display text-2xl">Boshqaruv paneli</h1>
             <p className="mt-2 text-sm text-[color:var(--muted)]">
-              Пользователь: {user?.username || 'admin'}
+              Foydalanuvchi: {user?.username || 'admin'}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               <Link
                 to="/"
                 className="inline-flex items-center text-sm font-semibold text-[color:var(--sky)]"
               >
-                На сайт
+                Saytga
               </Link>
               <button
                 type="button"
                 onClick={logout}
                 className="text-sm font-semibold text-[color:var(--muted)]"
               >
-                Выйти
+                Chiqish
               </button>
             </div>
           </div>
@@ -67,23 +67,23 @@ function AdminLayout({ children, navItems = defaultNavItems }) {
           <div className="flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-white/70 bg-white/85 px-6 py-4 shadow-soft">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--muted)]">
-                Админ-панель
+                Admin panel
               </p>
-              <h2 className="mt-1 font-display text-2xl">Контент и настройки</h2>
+              <h2 className="mt-1 font-display text-2xl">Kontent va sozlamalar</h2>
             </div>
             <div className="flex items-center gap-3">
               <Link
                 to="/"
                 className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)] shadow-soft transition hover:-translate-y-0.5"
               >
-                На сайт
+                Saytga
               </Link>
               <button
                 type="button"
                 onClick={logout}
                 className="rounded-full bg-[color:var(--sky)] px-4 py-2 text-xs font-semibold text-white shadow-soft"
               >
-                Выйти
+                Chiqish
               </button>
             </div>
           </div>

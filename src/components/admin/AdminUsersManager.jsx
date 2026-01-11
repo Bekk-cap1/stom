@@ -24,7 +24,7 @@ function AdminUsersManager({ users, setUsers }) {
     setError('')
 
     if (!form.username.trim() || !form.password.trim()) {
-      setError('Укажите логин и пароль пользователя')
+      setError('Foydalanuvchi login va parolini kiriting')
       return
     }
 
@@ -67,24 +67,24 @@ function AdminUsersManager({ users, setUsers }) {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            пользователи
+            foydalanuvchilar
           </p>
-          <h3 className="mt-2 font-display text-2xl">База пользователей</h3>
+          <h3 className="mt-2 font-display text-2xl">Foydalanuvchilar bazasi</h3>
         </div>
         <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {users.length} пользователей
+          {users.length} foydalanuvchi
         </span>
       </div>
 
       <p className="mt-4 text-xs text-[color:var(--muted)]">
-        Добавьте пользователя, чтобы затем выбрать его при создании врача. Список хранится локально в браузере.
+        Shifokor yaratishda tanlash uchun foydalanuvchi qo‘shing. Ro‘yxat brauzerda lokal saqlanadi.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-6 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Логин
+              Login
             </label>
             <input
               name="username"
@@ -97,13 +97,13 @@ function AdminUsersManager({ users, setUsers }) {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Полное имя
+              To‘liq ism
             </label>
             <input
               name="full_name"
               value={form.full_name}
               onChange={handleChange}
-              placeholder="Айман Макаренко"
+              placeholder="Ayman Makarenko"
               className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
@@ -125,7 +125,7 @@ function AdminUsersManager({ users, setUsers }) {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Телефон
+              Telefon
             </label>
             <input
               name="phone"
@@ -138,7 +138,7 @@ function AdminUsersManager({ users, setUsers }) {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Пароль
+              Parol
             </label>
             <input
               name="password"
@@ -157,7 +157,7 @@ function AdminUsersManager({ users, setUsers }) {
               disabled={isSubmitting}
               className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft disabled:opacity-70"
             >
-              {isSubmitting ? 'Создаем...' : 'Добавить пользователя'}
+              {isSubmitting ? 'Yaratilmoqda...' : 'Foydalanuvchi qo‘shish'}
             </button>
             <button
               type="button"
@@ -167,7 +167,7 @@ function AdminUsersManager({ users, setUsers }) {
               }}
               className="rounded-full border border-white/70 bg-white/80 px-5 py-2 text-sm font-semibold text-[color:var(--muted)]"
             >
-              Сбросить
+              Tozalash
             </button>
           </div>
         </div>
@@ -181,10 +181,10 @@ function AdminUsersManager({ users, setUsers }) {
           >
             <div>
               <p className="font-semibold text-[color:var(--ink)]">
-                {user.full_name || user.username || 'Пользователь'}
+                {user.full_name || user.username || 'Foydalanuvchi'}
               </p>
               <p className="text-xs text-[color:var(--muted)]">
-                {user.username || user.email || 'без логина'}
+                {user.username || user.email || 'login yo‘q'}
                 {user.role_display || user.role ? ` · ${user.role_display || user.role}` : ''}
               </p>
             </div>

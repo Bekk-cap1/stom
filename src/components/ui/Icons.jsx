@@ -21,3 +21,21 @@ export const Play = ({ className }) => (
     <path fill="currentColor" d="M8 5.2v13.6l10.8-6.8L8 5.2z" />
   </svg>
 )
+
+export const Telegram = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M21.9 4.4c.4-1.6-1.2-2.5-2.5-2L2.9 9.1c-1.7.7-1.7 3.1.1 3.7l4.2 1.4 1.6 5.2c.2.8 1.2 1 1.7.5l2.5-2.5 4.5 3.3c.8.6 2 .2 2.2-.9l2.5-15.4zM8.7 13.4l9.7-7.1c.2-.1.4.2.2.4l-7.9 7.9-.3 3.4-1.1-3.6-3.2-1.1c-.2-.1-.2-.4.1-.5z"
+    />
+  </svg>
+)
+
+export const Instagram = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M7.6 2.6h8.8c2.8 0 5 2.2 5 5v8.8c0 2.8-2.2 5-5 5H7.6c-2.8 0-5-2.2-5-5V7.6c0-2.8 2.2-5 5-5zm0 1.9c-1.7 0-3.1 1.4-3.1 3.1v8.8c0 1.7 1.4 3.1 3.1 3.1h8.8c1.7 0 3.1-1.4 3.1-3.1V7.6c0-1.7-1.4-3.1-3.1-3.1H7.6zm10.2 1.6a1.1 1.1 0 110 2.2 1.1 1.1 0 010-2.2zM12 7.3a4.7 4.7 0 110 9.4 4.7 4.7 0 010-9.4zm0 1.9a2.8 2.8 0 100 5.6 2.8 2.8 0 000-5.6z"
+    />
+  </svg>
+)

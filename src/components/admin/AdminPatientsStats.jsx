@@ -1,7 +1,7 @@
 ﻿import { useMemo } from 'react'
 
 const formatCurrency = (value) =>
-  new Intl.NumberFormat('ru-RU', {
+  new Intl.NumberFormat('uz-UZ', {
     style: 'currency',
     currency: 'UZS',
     maximumFractionDigits: 0,
@@ -44,7 +44,7 @@ function AdminPatientsStats({ patients }) {
     const months = Array.from({ length: 6 }, (_, index) => {
       const date = new Date(now.getFullYear(), now.getMonth() - (5 - index), 1)
       const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
-      const label = new Intl.DateTimeFormat('ru-RU', { month: 'short' }).format(date)
+      const label = new Intl.DateTimeFormat('uz-UZ', { month: 'short' }).format(date)
       return { key, label }
     })
 
@@ -77,19 +77,19 @@ function AdminPatientsStats({ patients }) {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            пациенты
+            bemorlar
           </p>
-          <h3 className="mt-2 font-display text-2xl">Статистика приема</h3>
+          <h3 className="mt-2 font-display text-2xl">Qabul statistikasi</h3>
         </div>
         <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {patients.length} записей
+          {patients.length} yozuv
         </span>
       </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-2xl border border-white/70 bg-white/75 p-4">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            Пациенты
+            Bemorlar
           </p>
           <p className="mt-3 text-2xl font-semibold text-[color:var(--ink)]">
             {totals.totalPatients}
@@ -97,7 +97,7 @@ function AdminPatientsStats({ patients }) {
         </div>
         <div className="rounded-2xl border border-white/70 bg-white/75 p-4">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            Выручка
+            Tushum
           </p>
           <p className="mt-3 text-2xl font-semibold text-[color:var(--ink)]">
             {formatCurrency(totals.totalRevenue)}
@@ -105,7 +105,7 @@ function AdminPatientsStats({ patients }) {
         </div>
         <div className="rounded-2xl border border-white/70 bg-white/75 p-4">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            Средний чек
+            O‘rtacha to‘lov
           </p>
           <p className="mt-3 text-2xl font-semibold text-[color:var(--ink)]">
             {formatCurrency(Math.round(totals.avgCheck))}
@@ -113,7 +113,7 @@ function AdminPatientsStats({ patients }) {
         </div>
         <div className="rounded-2xl border border-white/70 bg-white/75 p-4">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            Диагнозы
+            Diagnozlar
           </p>
           <p className="mt-3 text-2xl font-semibold text-[color:var(--ink)]">
             {totals.diseaseCount}
@@ -123,7 +123,7 @@ function AdminPatientsStats({ patients }) {
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <div className="rounded-2xl border border-white/70 bg-white/75 p-4">
-          <p className="text-sm font-semibold text-[color:var(--muted)]">Топ диагнозов</p>
+          <p className="text-sm font-semibold text-[color:var(--muted)]">Top diagnozlar</p>
           <div className="mt-4 flex items-end gap-4">
             {diseaseStats.length ? (
               diseaseStats.map(([disease, count], index) => (
@@ -147,13 +147,13 @@ function AdminPatientsStats({ patients }) {
               ))
             ) : (
               <p className="text-sm text-[color:var(--muted)]">
-                Добавьте пациентов, чтобы увидеть статистику.
+                Statistikani ko‘rish uchun bemorlar qo‘shing.
               </p>
             )}
           </div>
         </div>
         <div className="rounded-2xl border border-white/70 bg-white/75 p-4">
-          <p className="text-sm font-semibold text-[color:var(--muted)]">Выручка по месяцам</p>
+          <p className="text-sm font-semibold text-[color:var(--muted)]">Oylik tushum</p>
           <div className="mt-4 flex items-end gap-4">
             {monthStats.map((month, index) => (
               <div key={month.key} className="flex flex-1 flex-col items-center gap-2">
@@ -173,7 +173,7 @@ function AdminPatientsStats({ patients }) {
             ))}
           </div>
           <p className="mt-3 text-xs text-[color:var(--muted)]">
-            Используются данные по полю "дата визита".
+            "Tashrif sanasi" maydoni bo‘yicha ma’lumotlar ishlatiladi.
           </p>
         </div>
       </div>

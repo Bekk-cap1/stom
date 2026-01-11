@@ -7,21 +7,21 @@
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              последние работы
+              so‘nggi ishlar
             </p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl">
-              Живые кейсы из практики
+              Amaliyotdan haqiqiy keyslar
             </h2>
           </div>
           <a
             href="#works"
             className="rounded-full border border-white/70 bg-white/80 px-5 py-2 text-sm font-semibold text-[color:var(--ink)] shadow-soft transition hover:-translate-y-0.5"
           >
-            Смотреть весь архив
+            Barcha arxivni ko‘rish
           </a>
         </div>
         {isLoading ? (
-          <p className="mt-6 text-sm text-[color:var(--muted)]">Загружаем работы...</p>
+          <p className="mt-6 text-sm text-[color:var(--muted)]">Ishlar yuklanmoqda...</p>
         ) : null}
         <div className="mt-8 grid gap-6 md:grid-cols-3">
           {works.slice(0, 3).map((work) => (
@@ -32,7 +32,7 @@
               className="group rounded-3xl border border-white/70 bg-white/80 p-5 text-left shadow-soft transition hover:-translate-y-1"
             >
               <div className="grid grid-cols-2 gap-3">
-                {['до', 'после'].map((label, index) => {
+                {['oldin', 'keyin'].map((label, index) => {
                   const imageUrl =
                     index === 0 ? work.beforeImages?.[0] : work.afterImages?.[0]
                   const fallbackClass =
@@ -48,7 +48,7 @@
                       {imageUrl ? (
                         <img
                           src={imageUrl}
-                          alt={`Фото ${label}`}
+                          alt={`Foto ${label}`}
                           className="h-full w-full object-cover"
                           loading="lazy"
                         />

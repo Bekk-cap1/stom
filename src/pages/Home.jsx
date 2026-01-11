@@ -16,6 +16,8 @@ import ContactSection from '../components/sections/ContactSection'
 import WorkModal from '../components/sections/WorkModal'
 import { workGradientPairs, seoDefaults, mediaPlaceholders } from '../data/siteData'
 import { formatDigitsInText, formatNumberWithSpaces } from '../utils/formatNumbers'
+import { buildHomeSeo } from '../utils/seo'
+import { computeAvailability } from '../utils/availability'
 
 const normalizeImageList = (value) => {
   if (!value) return []
@@ -73,20 +75,64 @@ const truncateText = (text, max = 90) => {
 }
 
 const formatMoney = (value) => {
-  if (value === null || value === undefined || value === '') return 'по запросу'
-  if (typeof value === 'number') return `${formatNumberWithSpaces(value)} сум`
+  if (value === null || value === undefined || value === '') return "so'rov bo'yicha"
+  if (typeof value === 'number') return `${formatNumberWithSpaces(value)} so'm`
   const text = String(value).trim()
-  if (!text) return 'по запросу'
+  if (!text) return "so'rov bo'yicha"
   const formatted = formatDigitsInText(text)
-  if (/[^\d\s.,]/.test(text) || text.toLowerCase().includes('сум')) {
+  if (
+    /[^\d\s.,]/.test(text) ||
+    text.toLowerCase().includes("so'm") ||
+    text.toLowerCase().includes("so'm")
+  ) {
     return formatted
   }
-  return `${formatted} сум`
+  return `${formatted} so'm`
+}
+
+const parsePriceRangeString = (value) => {
+  if (value == null) return null
+  const text = String(value).trim()
+  if (!text) return null
+  const match = text.match(/^(.+?)\s*[-–—]\s*(.+)$/)
+  if (!match) return null
+  const from = stripNonDigits(match[1])
+  const to = stripNonDigits(match[2])
+  if (!from && !to) return null
+  return { from, to }
+}
+
+const formatServicePrice = (item) => {
+  const from = item?.price_from ?? item?.min_price ?? item?.priceFrom ?? null
+  const to = item?.price_to ?? item?.max_price ?? item?.priceTo ?? null
+
+  const hasFrom = from !== null && from !== undefined && from !== ''
+  const hasTo = to !== null && to !== undefined && to !== ''
+
+  if (hasFrom || hasTo) {
+    const fromText = hasFrom ? formatNumberWithSpaces(stripNonDigits(from)) : ''
+    const toText = hasTo ? formatNumberWithSpaces(stripNonDigits(to)) : ''
+
+    if (fromText && toText) return `${fromText}–${toText} so'm`
+    if (fromText) return `${fromText} so'mdan`
+    if (toText) return `${toText} so'mgacha`
+  }
+
+  const parsed = parsePriceRangeString(item?.price)
+  if (parsed) {
+    const fromText = parsed.from ? formatNumberWithSpaces(parsed.from) : ''
+    const toText = parsed.to ? formatNumberWithSpaces(parsed.to) : ''
+    if (fromText && toText) return `${fromText}–${toText} so'm`
+    if (fromText) return `${fromText} so'mdan`
+    if (toText) return `${toText} so'mgacha`
+  }
+
+  return formatMoney(item?.price)
 }
 
 const formatDuration = (minutes) => {
   if (!minutes && minutes !== 0) return ''
-  return `${minutes} мин`
+  return `${minutes} daq`
 }
 
 const formatDiscountValue = (item) => {
@@ -99,14 +145,14 @@ const formatDateRange = (start, end) => {
   const formatDate = (value) => {
     const date = new Date(value)
     if (!Number.isNaN(date.getTime())) {
-      return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })
+      return date.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'short' })
     }
     return value
   }
 
   if (start && end) return `${formatDate(start)} - ${formatDate(end)}`
-  if (end) return `до ${formatDate(end)}`
-  if (start) return `с ${formatDate(start)}`
+  if (end) return `${formatDate(end)} gacha`
+  if (start) return `${formatDate(start)} dan`
   return ''
 }
 
@@ -117,9 +163,10 @@ const mapServicesFromApi = (items) =>
       id: item.id,
       title: item.title,
       description: item.description || '',
-      price: formatMoney(item.price),
+      price: formatServicePrice(item),
+      duration_minutes: item.duration_minutes ?? null,
       duration: formatDuration(item.duration_minutes),
-      tag: item.is_active === false ? 'неактивно' : 'доступно',
+      tag: item.is_active === false ? 'faol emas' : 'mavjud',
       icon: item.title?.[0]?.toUpperCase() || String(index + 1),
     }))
 
@@ -128,9 +175,9 @@ const mapPromosFromApi = (items) =>
     .filter((item) => item.is_active !== false)
     .map((item) => ({
       id: item.id,
-      title: item.title || 'Акция',
+      title: item.title || 'Aksiya',
       description: item.description || '',
-      discount: formatDiscountValue(item) || 'спецусловия',
+      discount: formatDiscountValue(item) || 'maxsus shartlar',
       valid: formatDateRange(item.start_date, item.end_date),
     }))
 
@@ -139,7 +186,7 @@ const mapReviewsFromApi = (items) =>
     .filter((item) => item.is_approved !== false)
     .map((item) => ({
       id: item.id,
-      name: item.user?.full_name || item.user?.username || 'Пациент',
+      name: item.user?.full_name || item.user?.username || 'Bemor',
       text: item.comment || '',
       rating: item.rating || 5,
       city: item.user?.city || '',
@@ -151,7 +198,7 @@ const mapBannersToVideos = (items, apiBaseUrl) => {
 
   return source.map((item) => ({
     id: item.id,
-    title: item.title || 'Акция',
+    title: item.title || 'Aksiya',
     description: item.link_url || '',
     valid: item.position_display || item.position || '',
     image: toAbsoluteUrl(item.image, apiBaseUrl),
@@ -189,7 +236,7 @@ const mapWorksFromApi = (apiWorks, workImages, apiBaseUrl) => {
     }
 
     const serviceTitle =
-      work.service?.title || work.service_title || work.service_name || 'Работа'
+      work.service?.title || work.service_title || work.service_name || 'Ish'
     const beforeFromWork = normalizeImageList(work.before_images).map((item) =>
       toAbsoluteUrl(item, apiBaseUrl),
     )
@@ -203,7 +250,7 @@ const mapWorksFromApi = (apiWorks, workImages, apiBaseUrl) => {
 
     return {
       id: work.id,
-      title: work.title || 'Кейс',
+      title: work.title || 'Keys',
       type: serviceTitle,
       date: getYearLabel(work.created_at),
       note: truncateText(work.description || ''),
@@ -226,12 +273,14 @@ function Home() {
   const [reviewItems, setReviewItems] = useState([])
   const [doctorItems, setDoctorItems] = useState([])
   const [bannerItems, setBannerItems] = useState([])
+  const [appointmentItems, setAppointmentItems] = useState([])
   const [loadingSeo, setLoadingSeo] = useState(true)
   const [loadingServices, setLoadingServices] = useState(true)
   const [loadingPromos, setLoadingPromos] = useState(true)
   const [loadingReviews, setLoadingReviews] = useState(true)
   const [loadingDoctors, setLoadingDoctors] = useState(true)
   const [loadingBanners, setLoadingBanners] = useState(true)
+  const [loadingAppointments, setLoadingAppointments] = useState(true)
   const [loadingWorks, setLoadingWorks] = useState(true)
 
   useEffect(() => {
@@ -266,17 +315,19 @@ function Home() {
       setLoadingReviews(true)
       setLoadingDoctors(true)
       setLoadingBanners(true)
+      setLoadingAppointments(true)
       const results = await Promise.allSettled([
         apiFetch('/api/services/', { auth: false }),
         apiFetch('/api/discounts/', { auth: false }),
         apiFetch('/api/reviews/', { auth: false }),
         apiFetch('/api/doctors/', { auth: false }),
         apiFetch('/api/banners/', { auth: false }),
+        apiFetch('/api/appointments/', { auth: false }),
       ])
 
       if (!isActive) return
 
-      const [servicesRes, promosRes, reviewsRes, doctorsRes, bannersRes] = results
+      const [servicesRes, promosRes, reviewsRes, doctorsRes, bannersRes, appointmentsRes] = results
 
       if (servicesRes.status === 'fulfilled' && Array.isArray(servicesRes.value)) {
         setServiceItems(mapServicesFromApi(servicesRes.value))
@@ -293,12 +344,16 @@ function Home() {
       if (bannersRes.status === 'fulfilled' && Array.isArray(bannersRes.value)) {
         setBannerItems(bannersRes.value)
       }
+      if (appointmentsRes.status === 'fulfilled' && Array.isArray(appointmentsRes.value)) {
+        setAppointmentItems(appointmentsRes.value)
+      }
 
       setLoadingServices(false)
       setLoadingPromos(false)
       setLoadingReviews(false)
       setLoadingDoctors(false)
       setLoadingBanners(false)
+      setLoadingAppointments(false)
     }
 
     loadContent()
@@ -370,19 +425,39 @@ function Home() {
     }))
   }, [apiBaseUrl, bannerItems, heroImage, promoItems])
 
+  const servicesById = useMemo(() => {
+    return serviceItems.reduce((acc, item) => {
+      if (!item?.id) return acc
+      acc[item.id] = item
+      return acc
+    }, {})
+  }, [serviceItems])
+
+  const availabilityDays = useMemo(() => {
+    if (!primaryDoctor?.id) return []
+    return computeAvailability({
+      doctorId: primaryDoctor.id,
+      appointments: appointmentItems,
+      durationMinutes: 30,
+      stepMinutes: 30,
+      days: 7,
+      servicesById,
+    })
+  }, [appointmentItems, primaryDoctor?.id, servicesById])
+
   const statsItems = useMemo(() => {
     const items = []
-    if (doctorItems.length) {
-      items.push({ value: String(doctorItems.length), label: 'врачей в команде' })
-    }
+    // if (doctorItems.length) {
+    //   items.push({ value: String(doctorItems.length), label: 'jamoada shifokorlar' })
+    // }
     if (serviceItems.length) {
-      items.push({ value: String(serviceItems.length), label: 'направлений лечения' })
+      items.push({ value: String(serviceItems.length), label: 'davolash yo‘nalishlari' })
     }
     if (workItems.length) {
-      items.push({ value: String(workItems.length), label: 'клинических кейсов' })
+      items.push({ value: String(workItems.length), label: 'klinik keyslar' })
     }
     if (reviewItems.length) {
-      items.push({ value: String(reviewItems.length), label: 'отзывов пациентов' })
+      items.push({ value: String(reviewItems.length), label: 'bemor fikrlari' })
     }
     return items.slice(0, 3)
   }, [doctorItems.length, reviewItems.length, serviceItems.length, workItems.length])
@@ -409,11 +484,18 @@ function Home() {
   }, [serviceItems])
 
   const { title, description } = useMemo(() => {
+    const autoSeo = buildHomeSeo({
+      doctor: primaryDoctor,
+      services: serviceItems,
+      defaultName: 'Charos',
+      defaultExperienceYears: 15,
+    })
+
     return {
-      title: seoPage?.meta_title || seoDefaults.title,
-      description: seoPage?.meta_description || seoDefaults.description,
+      title: seoPage?.meta_title || autoSeo.title || seoDefaults.title,
+      description: seoPage?.meta_description || autoSeo.description || seoDefaults.description,
     }
-  }, [seoPage])
+  }, [primaryDoctor, seoPage, serviceItems])
 
   const siteUrl =
     import.meta.env.VITE_SITE_URL ||
@@ -434,11 +516,13 @@ function Home() {
         twitterCard="summary_large_image"
       />
       <SiteHeader />
-      <main>
+      <main className="pt-24 sm:pt-28">
         <HeroSection
           stats={statsItems}
           image={heroImage}
           doctor={primaryDoctor}
+          availabilityDays={availabilityDays}
+          loadingAvailability={loadingAppointments}
           loading={loadingStats}
         />
         <FeaturedWorks works={workItems} onOpenWork={setActiveWork} loading={isWorksLoading} />

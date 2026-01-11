@@ -8,18 +8,17 @@
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              преимущества
+              afzalliklar
             </p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl">
-              Сервис клиники + личный подход врача
+              Klinika xizmati + shaxsiy yondashuv
             </h2>
             <p className="mt-4 text-base text-[color:var(--muted)]">
-              От первичной консультации до финальной фотосессии улыбки вы
-              получаете прозрачный план, точные сроки и поддержку на каждом
-              шаге.
+              Birinchi konsultatsiyadan boshlab yakuniy “tabassum fotosessiyasi”gacha siz
+              aniq reja, tushunarli muddatlar va har bir bosqichda qo‘llab-quvvatlash olasiz.
             </p>
             {loading && !hasAdvantages ? (
-              <p className="mt-4 text-sm text-[color:var(--muted)]">Загружаем преимущества...</p>
+              <p className="mt-4 text-sm text-[color:var(--muted)]">Afzalliklar yuklanmoqda...</p>
             ) : null}
             <div className="mt-6 space-y-3 text-sm text-[color:var(--muted)]">
               {advantages.map((advantage) => (
@@ -38,7 +37,7 @@
           <div className="grid gap-4 sm:grid-cols-2">
             {loading && !hasStats ? (
               <div className="rounded-3xl border border-white/70 bg-white/75 p-6 text-sm text-[color:var(--muted)]">
-                Загружаем статистику...
+                Statistika yuklanmoqda...
               </div>
             ) : null}
             {stats.map((stat) => (
@@ -52,37 +51,36 @@
             ))}
             <div className="rounded-3xl border border-white/70 bg-gradient-to-br from-sky-100/80 via-white to-emerald-100/60 p-6 shadow-soft">
               <p className="text-sm font-semibold text-[color:var(--muted)]">
-                Онлайн-консультация
+                Onlayn konsultatsiya
               </p>
               <p className="mt-3 text-lg font-semibold">
-                Подбор плана лечения в мессенджере
+                Messendjerda davolash rejasini tanlash
               </p>
               <p className="mt-3 text-sm text-[color:var(--muted)]">
-                Отправьте снимки и получите предварительный план и смету в
-                течение 24 часов.
+                Suratlarni yuboring va 24 soat ichida dastlabki reja hamda smetani oling.
               </p>
               <a
                 href="#contact"
                 className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--sky)]"
               >
-                Получить консультацию
+                Konsultatsiya olish
               </a>
             </div>
             <div className="rounded-3xl border border-white/70 bg-gradient-to-br from-emerald-100/80 via-white to-sky-100/70 p-6 shadow-soft">
               <p className="text-sm font-semibold text-[color:var(--muted)]">
-                Контроль качества
+                Sifat nazorati
               </p>
               <p className="mt-3 text-lg font-semibold">
-                Фото и видеоотчет после приема
+                Qabuldan keyin foto va video hisobot
               </p>
               <p className="mt-3 text-sm text-[color:var(--muted)]">
-                Все этапы фиксируются, чтобы вы видели результат лечения.
+                Davolash natijasini ko‘rishingiz uchun barcha bosqichlar qayd etiladi.
               </p>
               <a
                 href="#works"
                 className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--sky)]"
               >
-                Смотреть отчеты
+                Hisobotlarni ko‘rish
               </a>
             </div>
           </div>

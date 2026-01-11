@@ -87,7 +87,7 @@ export const apiFetch = async (path, options = {}) => {
 
       if (!retryResponse.ok) {
         const errorBody = await parseResponse(retryResponse)
-        const error = new Error(errorBody?.detail || 'Запрос завершился ошибкой')
+        const error = new Error(errorBody?.detail || 'So‘rov xatolik bilan yakunlandi')
         error.status = retryResponse.status
         error.body = errorBody
         throw error
@@ -99,7 +99,7 @@ export const apiFetch = async (path, options = {}) => {
 
   if (!response.ok) {
     const errorBody = await parseResponse(response)
-    const error = new Error(errorBody?.detail || 'Запрос завершился ошибкой')
+    const error = new Error(errorBody?.detail || 'So‘rov xatolik bilan yakunlandi')
     error.status = response.status
     error.body = errorBody
     throw error

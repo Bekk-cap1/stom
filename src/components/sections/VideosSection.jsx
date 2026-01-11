@@ -7,18 +7,18 @@
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              фото и акции
+              foto va aksiyalar
             </p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl">
-              Фото-объявления и архив
+              Foto e'lonlar va arxiv
             </h2>
           </div>
           <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-            Архивируем по дате окончания
+            Tugash sanasiga ko‘ra arxivlaymiz
           </span>
         </div>
         {isLoading ? (
-          <p className="mt-6 text-sm text-[color:var(--muted)]">Загружаем объявления...</p>
+          <p className="mt-6 text-sm text-[color:var(--muted)]">E'lonlar yuklanmoqda...</p>
         ) : null}
         <div className="mt-8 grid gap-6 lg:grid-cols-3">
           {videoPosts.map((video) => {
@@ -33,7 +33,7 @@
                   {imageSrc ? (
                     <img
                       src={imageSrc}
-                      alt="Фото акции"
+                      alt="Aksiya fotosi"
                       className="h-40 w-full object-cover"
                       loading="lazy"
                     />
@@ -52,7 +52,7 @@
                   href="#contact"
                   className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--sky)]"
                 >
-                  Записаться
+                  Qabulga yozilish
                 </a>
               </div>
             )

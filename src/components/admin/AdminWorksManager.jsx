@@ -64,7 +64,7 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
     setError('')
 
     if (!form.title.trim() || !form.doctor_id || !form.service_id) {
-      setError('Заполните название, врача и услугу')
+      setError('Sarlavha, shifokor va xizmatni to‘ldiring')
       return
     }
 
@@ -147,12 +147,12 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            работы
+            ishlar
           </p>
-          <h3 className="mt-2 font-display text-2xl">Портфолио до / после</h3>
+          <h3 className="mt-2 font-display text-2xl">Oldin / keyin portfeli</h3>
         </div>
         <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {works.length} кейсов
+          {works.length} keys
         </span>
       </div>
 
@@ -160,20 +160,20 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Заголовок
+              Sarlavha
             </label>
             <input
               name="title"
               value={form.title}
               onChange={handleChange}
-              placeholder="Название кейса"
+              placeholder="Keys nomi"
               className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Врач
+                Shifokor
               </label>
               <select
                 name="doctor_id"
@@ -181,7 +181,7 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
                 onChange={handleChange}
                 className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
               >
-                <option value="">Выберите врача</option>
+                <option value="">Shifokorni tanlang</option>
                 {doctors.map((doctor) => (
                   <option key={doctor.id} value={doctor.id}>
                     {doctor.user?.full_name || doctor.user?.username || doctor.specialization}
@@ -191,7 +191,7 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
             </div>
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Услуга
+                Xizmat
               </label>
               <select
                 name="service_id"
@@ -199,7 +199,7 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
                 onChange={handleChange}
                 className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
               >
-                <option value="">Выберите услугу</option>
+                <option value="">Xizmatni tanlang</option>
                 {services.map((service) => (
                   <option key={service.id} value={service.id}>
                     {service.title}
@@ -210,14 +210,14 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Описание
+              Tavsif
             </label>
             <textarea
               name="description"
               value={form.description}
               onChange={handleChange}
               rows="3"
-              placeholder="Краткое описание"
+              placeholder="Qisqacha tavsif"
               className="mt-2 w-full resize-none rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
@@ -225,7 +225,7 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Фото «до»
+              Foto (oldin)
             </label>
             <input
               key={`before-${fileResetKey}`}
@@ -238,13 +238,13 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
             />
             {beforeImages.length ? (
               <p className="mt-2 text-xs text-[color:var(--muted)]">
-                Выбрано: {beforeImages.length}
+                Tanlangan: {beforeImages.length}
               </p>
             ) : null}
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Фото «после»
+              Foto (keyin)
             </label>
             <input
               key={`after-${fileResetKey}`}
@@ -257,13 +257,13 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
             />
             {afterImages.length ? (
               <p className="mt-2 text-xs text-[color:var(--muted)]">
-                Выбрано: {afterImages.length}
+                Tanlangan: {afterImages.length}
               </p>
             ) : null}
           </div>
           {error ? <p className="text-sm text-red-500">{error}</p> : null}
           {isUploading ? (
-            <p className="text-sm text-[color:var(--muted)]">Загружаем изображения...</p>
+            <p className="text-sm text-[color:var(--muted)]">Rasmlar yuklanmoqda...</p>
           ) : null}
           <div className="flex flex-wrap items-center gap-3">
             <button
@@ -271,7 +271,7 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
               disabled={isUploading}
               className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft disabled:opacity-70"
             >
-              {editingId ? 'Сохранить' : 'Добавить работу'}
+              {editingId ? 'Saqlash' : 'Ish qo‘shish'}
             </button>
             <button
               type="button"
@@ -285,7 +285,7 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
               }}
               className="rounded-full border border-white/70 bg-white/80 px-5 py-2 text-sm font-semibold text-[color:var(--muted)]"
             >
-              Сбросить
+              Tozalash
             </button>
           </div>
         </div>
@@ -300,8 +300,8 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
             <div>
               <p className="font-semibold text-[color:var(--ink)]">{item.title}</p>
               <p className="text-xs text-[color:var(--muted)]">
-                {item.service?.title || `Услуга #${item.service_id || '-'}`} ·{' '}
-                {item.doctor?.user?.full_name || item.doctor?.user?.username || 'Доктор'}
+                {item.service?.title || `Xizmat #${item.service_id || '-'}`} ·{' '}
+                {item.doctor?.user?.full_name || item.doctor?.user?.username || 'Shifokor'}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -310,14 +310,14 @@ function AdminWorksManager({ works, setWorks, doctors, services }) {
                 onClick={() => handleEdit(item)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Редактировать
+                Tahrirlash
               </button>
               <button
                 type="button"
                 onClick={() => handleDelete(item.id)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Удалить
+                O‘chirish
               </button>
             </div>
           </div>

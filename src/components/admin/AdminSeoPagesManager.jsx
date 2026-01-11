@@ -22,7 +22,7 @@ function AdminSeoPagesManager({ seoPages, setSeoPages }) {
     setError('')
 
     if (!form.page.trim() || !form.meta_title.trim()) {
-      setError('Заполните страницу и SEO заголовок')
+      setError('Sahifa va SEO sarlavhani to‘ldiring')
       return
     }
 
@@ -82,10 +82,10 @@ function AdminSeoPagesManager({ seoPages, setSeoPages }) {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
             seo
           </p>
-          <h3 className="mt-2 font-display text-2xl">Meta-теги страниц</h3>
+          <h3 className="mt-2 font-display text-2xl">Sahifalar meta-teglari</h3>
         </div>
         <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {seoPages.length} страниц
+          {seoPages.length} sahifa
         </span>
       </div>
 
@@ -93,7 +93,7 @@ function AdminSeoPagesManager({ seoPages, setSeoPages }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Page
+              Sahifa
             </label>
             <input
               name="page"
@@ -105,7 +105,7 @@ function AdminSeoPagesManager({ seoPages, setSeoPages }) {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Meta title
+              Meta sarlavha
             </label>
             <input
               name="meta_title"
@@ -118,7 +118,7 @@ function AdminSeoPagesManager({ seoPages, setSeoPages }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Meta description
+              Meta tavsif
             </label>
             <textarea
               name="meta_description"
@@ -134,7 +134,7 @@ function AdminSeoPagesManager({ seoPages, setSeoPages }) {
               type="submit"
               className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft"
             >
-              {editingId ? 'Сохранить' : 'Добавить SEO'}
+              {editingId ? 'Saqlash' : 'SEO qo‘shish'}
             </button>
             <button
               type="button"
@@ -145,7 +145,7 @@ function AdminSeoPagesManager({ seoPages, setSeoPages }) {
               }}
               className="rounded-full border border-white/70 bg-white/80 px-5 py-2 text-sm font-semibold text-[color:var(--muted)]"
             >
-              Сбросить
+              Tozalash
             </button>
           </div>
         </div>
@@ -167,14 +167,14 @@ function AdminSeoPagesManager({ seoPages, setSeoPages }) {
                 onClick={() => handleEdit(item)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Редактировать
+                Tahrirlash
               </button>
               <button
                 type="button"
                 onClick={() => handleDelete(item.id)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Удалить
+                O‘chirish
               </button>
             </div>
           </div>

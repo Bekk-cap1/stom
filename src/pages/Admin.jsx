@@ -10,9 +10,12 @@ import AdminLayout from '../components/admin/AdminLayout'
 import AdminOverview from '../components/admin/AdminOverview'
 import AdminPatientsManager from '../components/admin/AdminPatientsManager'
 import AdminPatientsStats from '../components/admin/AdminPatientsStats'
+import AdminBusyBlocksManager from '../components/admin/AdminBusyBlocksManager'
+import AdminClinicHoursManager from '../components/admin/AdminClinicHoursManager'
 import AdminReviewsManager from '../components/admin/AdminReviewsManager'
 import AdminSeoPagesManager from '../components/admin/AdminSeoPagesManager'
 import AdminServicesManager from '../components/admin/AdminServicesManager'
+import AdminTelegramBotManager from '../components/admin/AdminTelegramBotManager'
 import AdminUsersManager from '../components/admin/AdminUsersManager'
 import AdminWorksManager from '../components/admin/AdminWorksManager'
 
@@ -117,39 +120,42 @@ function Admin() {
 
   const overviewStats = useMemo(() => {
     return [
-      { label: 'Работы', value: works.length, note: 'кейсов' },
+      { label: 'Ishlar', value: works.length, note: 'keys' },
       {
-        label: 'Услуги',
+        label: 'Xizmatlar',
         value: services.filter((item) => item.is_active !== false).length,
-        note: 'активных',
+        note: 'faol',
       },
       {
-        label: 'Акции',
+        label: 'Aksiyalar',
         value: discounts.filter((item) => item.is_active !== false).length,
-        note: 'в эфире',
+        note: 'faol',
       },
       {
-        label: 'Отзывы',
+        label: 'Fikrlar',
         value: reviews.filter((item) => item.is_approved).length,
-        note: 'одобрено',
+        note: 'tasdiqlangan',
       },
     ]
   }, [discounts, reviews, services, works])
 
   const navItems = useMemo(() => {
     const items = [
-      { id: 'overview', label: 'Обзор' },
-      { id: 'patients', label: 'Пациенты' },
-      { id: 'users', label: 'Пользователи' },
-      { id: 'doctors', label: 'Врачи' },
-      { id: 'services', label: 'Услуги' },
-      { id: 'works', label: 'Работы' },
-      { id: 'banners', label: 'Баннеры' },
-      { id: 'discounts', label: 'Акции' },
-      { id: 'reviews', label: 'Отзывы' },
+      { id: 'overview', label: 'Umumiy' },
+      { id: 'patients', label: 'Bemorlar' },
+      { id: 'users', label: 'Foydalanuvchilar' },
+      { id: 'doctors', label: 'Shifokorlar' },
+      { id: 'services', label: 'Xizmatlar' },
+      { id: 'works', label: 'Ishlar' },
+      { id: 'banners', label: 'Bannerlar' },
+      { id: 'discounts', label: 'Aksiyalar' },
+      { id: 'reviews', label: 'Fikrlar' },
       { id: 'seo', label: 'SEO' },
-      { id: 'appointments', label: 'Записи' },
-      { id: 'contacts', label: 'Контакты' },
+      { id: 'appointments', label: 'Qabullar' },
+      { id: 'schedule', label: 'Jadval' },
+      { id: 'busy', label: 'Band vaqt' },
+      { id: 'telegram', label: 'Telegram bot' },
+      { id: 'contacts', label: 'Kontaktlar' },
     ]
 
     return items.filter((item) => sectionAccess[item.id] !== false)
@@ -158,8 +164,8 @@ function Admin() {
   return (
     <>
       <SeoHead
-        title="Админ-панель стоматологической клиники"
-        description="Управление контентом, услугами и заявками клиники."
+        title="Stomatologiya klinikasi admin paneli"
+        description="Klinika kontenti, xizmatlari va murojaatlarini boshqarish."
         robots="noindex, nofollow"
         ogType="website"
       />
@@ -172,17 +178,17 @@ function Admin() {
         ) : null}
         {loading ? (
           <div className="rounded-3xl border border-white/70 bg-white/85 p-6 text-sm text-[color:var(--muted)]">
-            Загружаем данные из API...
+            API dan ma'lumotlar yuklanmoqda...
           </div>
         ) : null}
         <AdminPatientsStats patients={patients} />
         <AdminPatientsManager patients={patients} setPatients={setPatients} />
-        {sectionAccess.users !== false ? (
+        {/* {sectionAccess.users !== false ? (
           <AdminUsersManager users={users} setUsers={setUsers} />
-        ) : null}
-        {sectionAccess.doctors !== false ? (
+        ) : null} */}
+        {/* {sectionAccess.doctors !== false ? (
           <AdminDoctorsManager doctors={doctors} setDoctors={setDoctors} users={users} />
-        ) : null}
+        ) : null} */}
         {sectionAccess.services !== false ? (
           <AdminServicesManager services={services} setServices={setServices} />
         ) : null}
@@ -212,15 +218,20 @@ function Admin() {
             works={works}
           />
         ) : null}
-        {sectionAccess.seo !== false ? (
+        {/* {sectionAccess.seo !== false ? (
           <AdminSeoPagesManager seoPages={seoPages} setSeoPages={setSeoPages} />
-        ) : null}
-        {sectionAccess.appointments !== false ? (
+        ) : null} */}
+        {/* {sectionAccess.appointments !== false ? (
           <AdminAppointmentsManager
             appointments={appointments}
             setAppointments={setAppointments}
+            doctors={doctors}
+            services={services}
           />
-        ) : null}
+        ) : null} */}
+        <AdminClinicHoursManager />
+        <AdminBusyBlocksManager doctors={doctors} />
+        <AdminTelegramBotManager />
         {sectionAccess.contacts !== false ? (
           <AdminContactRequestsManager
             requests={contactRequests}

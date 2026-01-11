@@ -7,18 +7,18 @@
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              услуги
+              xizmatlar
             </p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl">
-              Направления лечения и эстетики
+              Davolash va estetika yo‘nalishlari
             </h2>
           </div>
           <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-sm text-[color:var(--muted)]">
-            Цены обновляются ежемесячно
+            Narxlar har oy yangilanadi
           </span>
         </div>
         {isLoading ? (
-          <p className="mt-6 text-sm text-[color:var(--muted)]">Загружаем услуги...</p>
+          <p className="mt-6 text-sm text-[color:var(--muted)]">Xizmatlar yuklanmoqda...</p>
         ) : null}
         <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {services.map((service) => (
@@ -42,7 +42,7 @@
               </p>
               <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-sm">
                 <span className="font-semibold text-[color:var(--ink)]">
-                  {service.price}
+                  {service.price} dan boshlab
                 </span>
                 {service.duration ? (
                   <span className="rounded-full border border-white/70 bg-white/70 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]">

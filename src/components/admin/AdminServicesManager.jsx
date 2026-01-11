@@ -10,6 +10,9 @@ const initialForm = {
   title: '',
   description: '',
   price: '',
+  price_from: '',
+  price_to: '',
+  price_type: 'single',
   duration_minutes: '',
   is_active: true,
 }
@@ -32,6 +35,16 @@ function AdminServicesManager({ services, setServices }) {
       return
     }
 
+    if (name === 'price_from') {
+      setForm((prev) => ({ ...prev, price_from: formatNumberWithSpaces(value) }))
+      return
+    }
+
+    if (name === 'price_to') {
+      setForm((prev) => ({ ...prev, price_to: formatNumberWithSpaces(value) }))
+      return
+    }
+
     if (name === 'duration_minutes') {
       setForm((prev) => ({ ...prev, duration_minutes: value.replace(/\D/g, '') }))
       return
@@ -44,8 +57,19 @@ function AdminServicesManager({ services, setServices }) {
     const payload = {
       title: form.title.trim(),
       description: form.description.trim(),
-      price: stripNonDigits(form.price),
       is_active: form.is_active,
+    }
+
+    if (form.price_type === 'range') {
+      const from = stripNonDigits(form.price_from)
+      const to = stripNonDigits(form.price_to)
+
+      if (from && to && from !== to) payload.price = `${from}-${to}`
+      else if (from) payload.price = from
+      else if (to) payload.price = `-${to}`
+      else payload.price = ''
+    } else {
+      payload.price = stripNonDigits(form.price)
     }
 
     if (form.duration_minutes) {
@@ -59,8 +83,24 @@ function AdminServicesManager({ services, setServices }) {
     event.preventDefault()
     setError('')
 
-    if (!form.title.trim() || !form.price.trim()) {
-      setError('Заполните название и цену услуги')
+    if (!form.title.trim()) {
+      setError("Xizmat nomini to'ldiring")
+      return
+    }
+
+    if (form.price_type === 'range') {
+      const from = stripNonDigits(form.price_from)
+      const to = stripNonDigits(form.price_to)
+      if (!from && !to) {
+        setError("Narx uchun kamida 'dan' yoki 'gacha' qiymatini kiriting")
+        return
+      }
+      if (from && to && Number(from) > Number(to)) {
+        setError("'Dan' narxi 'gacha' narxidan katta bo'lmasligi kerak")
+        return
+      }
+    } else if (!form.price.trim()) {
+      setError("Xizmat narxini to'ldiring")
       return
     }
 
@@ -90,10 +130,34 @@ function AdminServicesManager({ services, setServices }) {
 
   const handleEdit = (item) => {
     setEditingId(item.id)
+
+    const parseRangeFromPrice = (priceValue) => {
+      if (priceValue == null) return null
+      const text = String(priceValue).trim()
+      if (!text) return null
+      const match = text.match(/^(.+?)\s*[-–—]\s*(.+)$/)
+      if (!match) return null
+      const from = stripNonDigits(match[1])
+      const to = stripNonDigits(match[2])
+      if (!from && !to) return null
+      return { from, to }
+    }
+
+    const fallbackRange = parseRangeFromPrice(item?.price)
+    const fromValue = item?.price_from ?? fallbackRange?.from ?? ''
+    const toValue = item?.price_to ?? fallbackRange?.to ?? ''
+    const hasRange =
+      fromValue !== '' ||
+      toValue !== '' ||
+      (item?.price_from != null || item?.price_to != null)
+
     setForm({
       title: item.title || '',
       description: item.description || '',
       price: formatNumberWithSpaces(item.price) || '',
+      price_from: formatNumberWithSpaces(fromValue) || '',
+      price_to: formatNumberWithSpaces(toValue) || '',
+      price_type: hasRange ? 'range' : 'single',
       duration_minutes: item.duration_minutes || '',
       is_active: item.is_active !== false,
     })
@@ -117,10 +181,51 @@ function AdminServicesManager({ services, setServices }) {
     if (value == null || value === '') return ''
     const text = String(value)
     const formatted = formatDigitsInText(text)
-    if (/[^\d\s.,]/.test(text) || text.toLowerCase().includes('сум')) {
+    if (
+      /[^\d\s.,]/.test(text) ||
+      text.toLowerCase().includes("so'm") ||
+      text.toLowerCase().includes('so‘m')
+    ) {
       return formatted
     }
-    return `${formatted} сум`
+    return `${formatted} so'm`
+  }
+
+  const renderServicePrice = (service) => {
+    const from = service?.price_from
+    const to = service?.price_to
+
+    if (from != null || to != null) {
+      const fromText = from != null && from !== '' ? formatDigitsInText(String(from)) : ''
+      const toText = to != null && to !== '' ? formatDigitsInText(String(to)) : ''
+
+      if (fromText && toText) return `${fromText}–${toText} so'm`
+      if (fromText) return `${fromText} so'mdan`
+      if (toText) return `${toText} so'mgacha`
+    }
+
+    const raw = service?.price
+    const parsed = (() => {
+      if (raw == null) return null
+      const text = String(raw).trim()
+      if (!text) return null
+      const match = text.match(/^(.+?)\s*[-–—]\s*(.+)$/)
+      if (!match) return null
+      const fromDigits = stripNonDigits(match[1])
+      const toDigits = stripNonDigits(match[2])
+      if (!fromDigits && !toDigits) return null
+      return { fromDigits, toDigits }
+    })()
+
+    if (parsed) {
+      const fromText = parsed.fromDigits ? formatDigitsInText(String(parsed.fromDigits)) : ''
+      const toText = parsed.toDigits ? formatDigitsInText(String(parsed.toDigits)) : ''
+      if (fromText && toText) return `${fromText}–${toText} so'm`
+      if (fromText) return `${fromText} so'mdan`
+      if (toText) return `${toText} so'mgacha`
+    }
+
+    return renderPrice(raw)
   }
 
   return (
@@ -128,12 +233,12 @@ function AdminServicesManager({ services, setServices }) {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            услуги
+            xizmatlar
           </p>
-          <h3 className="mt-2 font-display text-2xl">Каталог услуг</h3>
+          <h3 className="mt-2 font-display text-2xl">Xizmatlar katalogi</h3>
         </div>
         <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {services.length} услуг
+          {services.length} xizmat
         </span>
       </div>
 
@@ -141,46 +246,91 @@ function AdminServicesManager({ services, setServices }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Название
+              Nomi
             </label>
             <input
               name="title"
               value={form.title}
               onChange={handleChange}
-              placeholder="Например: имплантация"
+              placeholder="Masalan: implantatsiya"
               className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Описание
+              Tavsif
             </label>
             <textarea
               name="description"
               value={form.description}
               onChange={handleChange}
               rows="3"
-              placeholder="Краткое описание направления"
+              placeholder="Yo‘nalishning qisqacha tavsifi"
               className="mt-2 w-full resize-none rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Цена
+                Narx
               </label>
-              <input
-                inputMode="numeric"
-                name="price"
-                value={form.price}
-                onChange={handleChange}
-                placeholder="от 500 000 сум"
-                className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
-              />
+              {form.price_type === 'range' ? (
+                <div className="mt-2 grid gap-3 sm:grid-cols-2">
+                  <input
+                    inputMode="numeric"
+                    name="price_from"
+                    value={form.price_from}
+                    onChange={handleChange}
+                    placeholder="dan: 500 000"
+                    className="w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
+                  />
+                  <input
+                    inputMode="numeric"
+                    name="price_to"
+                    value={form.price_to}
+                    onChange={handleChange}
+                    placeholder="gacha: 900 000"
+                    className="w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
+                  />
+                </div>
+              ) : (
+                <input
+                  inputMode="numeric"
+                  name="price"
+                  value={form.price}
+                  onChange={handleChange}
+                  placeholder="500 000"
+                  className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
+                />
+              )}
+              <div className="mt-2 flex flex-wrap gap-2 text-xs font-semibold text-[color:var(--muted)]">
+                <label className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-3 py-1">
+                  <input
+                    type="radio"
+                    name="price_type"
+                    value="single"
+                    checked={form.price_type === 'single'}
+                    onChange={handleChange}
+                  />
+                  Bitta
+                </label>
+                {/* <label className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-3 py-1">
+                  <input
+                    type="radio"
+                    name="price_type"
+                    value="range"
+                    checked={form.price_type === 'range'}
+                    onChange={handleChange}
+                  />
+                  Dan - gacha
+                </label> */}
+              </div>
+
+
             </div>
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Длительность (мин)
+                Davomiyligi (daq)
               </label>
               <input
                 inputMode="numeric"
@@ -201,7 +351,7 @@ function AdminServicesManager({ services, setServices }) {
               checked={form.is_active}
               onChange={handleChange}
             />
-            Активно
+            Faol
           </label>
           {error ? <p className="text-sm text-red-500">{error}</p> : null}
           <div className="flex flex-wrap items-center gap-3">
@@ -209,7 +359,7 @@ function AdminServicesManager({ services, setServices }) {
               type="submit"
               className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft"
             >
-              {editingId ? 'Сохранить' : 'Добавить услугу'}
+              {editingId ? 'Saqlash' : 'Xizmat qo‘shish'}
             </button>
             <button
               type="button"
@@ -220,7 +370,7 @@ function AdminServicesManager({ services, setServices }) {
               }}
               className="rounded-full border border-white/70 bg-white/80 px-5 py-2 text-sm font-semibold text-[color:var(--muted)]"
             >
-              Сбросить
+              Tozalash
             </button>
           </div>
         </div>
@@ -234,31 +384,30 @@ function AdminServicesManager({ services, setServices }) {
           >
             <div>
               <p className="font-semibold text-[color:var(--ink)]">{item.title}</p>
-              <p className="text-xs text-[color:var(--muted)]">{renderPrice(item.price)}</p>
+              <p className="text-xs text-[color:var(--muted)]">{renderServicePrice(item)}</p>
             </div>
             <div className="flex items-center gap-2">
               <span
-                className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                  item.is_active !== false
+                className={`rounded-full px-3 py-1 text-xs font-semibold ${item.is_active !== false
                     ? 'bg-[color:var(--sea)]/15 text-[color:var(--sea)]'
                     : 'bg-slate-200 text-slate-500'
-                }`}
+                  }`}
               >
-                {item.is_active !== false ? 'активно' : 'выключено'}
+                {item.is_active !== false ? 'faol' : 'o‘chirilgan'}
               </span>
               <button
                 type="button"
                 onClick={() => handleEdit(item)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Редактировать
+                Tahrirlash
               </button>
               <button
                 type="button"
                 onClick={() => handleDelete(item.id)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Удалить
+                O‘chirish
               </button>
             </div>
           </div>

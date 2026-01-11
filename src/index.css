@@ -14,6 +14,13 @@
   --surface: #f6fbfd;
   --card: rgba(255, 255, 255, 0.84);
   --stroke: rgba(12, 38, 55, 0.12);
+  --site-header-offset: 96px;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --site-header-offset: 112px;
+  }
 }
 
 @layer base {
@@ -36,6 +43,10 @@
 
   #root {
     min-height: 100vh;
+  }
+
+  section[id] {
+    scroll-margin-top: var(--site-header-offset);
   }
 }
 

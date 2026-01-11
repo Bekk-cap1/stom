@@ -7,21 +7,21 @@
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              актуальные акции
+              amaldagi aksiyalar
             </p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl">
-              Скидки и спецпредложения
+              Chegirmalar va maxsus takliflar
             </h2>
           </div>
           <a
             href="#contact"
             className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5"
           >
-            Забрать скидку
+            Chegirmani olish
           </a>
         </div>
         {isLoading ? (
-          <p className="mt-6 text-sm text-[color:var(--muted)]">Загружаем акции...</p>
+          <p className="mt-6 text-sm text-[color:var(--muted)]">Aksiyalar yuklanmoqda...</p>
         ) : null}
         <div className="mt-8 grid gap-6 md:grid-cols-3">
           {promos.map((promo) => (
@@ -45,7 +45,7 @@
                 href="#contact"
                 className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--sky)]"
               >
-                Записаться
+                Qabulga yozilish
               </a>
             </div>
           ))}

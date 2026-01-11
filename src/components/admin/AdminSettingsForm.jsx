@@ -1,15 +1,15 @@
 ﻿import { useState } from 'react'
 
 const initialSettings = {
-  clinicName: 'Стоматология Айши Салимовой',
-  address: 'Ташкент, ул. Навои, 12',
-  phone: '+998 90 111 22 33',
-  whatsapp: 'https://wa.me/998901112233',
+  clinicName: 'Charos Karabekovna stomatologiyasi',
+  address: 'Toshkent, Navoiy ko‘chasi, 12',
+  phone: '+998 91 596 35 99',
+  whatsapp: 'https://wa.me/998915963599',
   telegram: 'https://t.me/bekk_cap1',
   instagram: 'https://instagram.com/clinic',
-  seoTitle: 'Доктор Чарос — персональный сайт стоматолога',
+  seoTitle: 'Doktor Charos — stomatologning shaxsiy sayti',
   seoDescription:
-    'Современный сайт-витрина стоматолога с реальными работами, акциями и записью.',
+    'Stomatolog uchun zamonaviy vitrina-sayt: haqiqiy ishlar, aksiyalar va qabulga yozilish.',
 }
 
 function AdminSettingsForm() {
@@ -24,16 +24,16 @@ function AdminSettingsForm() {
     <section id="settings" className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-soft">
       <div>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-          настройки
+          sozlamalar
         </p>
-        <h3 className="mt-2 font-display text-2xl">Контакты и SEO</h3>
+        <h3 className="mt-2 font-display text-2xl">Kontaktlar va SEO</h3>
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Название клиники
+              Klinika nomi
             </label>
             <input
               name="clinicName"
@@ -44,7 +44,7 @@ function AdminSettingsForm() {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Адрес
+              Manzil
             </label>
             <input
               name="address"
@@ -55,7 +55,7 @@ function AdminSettingsForm() {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Телефон
+              Telefon
             </label>
             <input
               name="phone"
@@ -103,7 +103,7 @@ function AdminSettingsForm() {
         <div className="space-y-4 lg:col-span-2">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              SEO Title
+              SEO sarlavha
             </label>
             <input
               name="seoTitle"
@@ -114,7 +114,7 @@ function AdminSettingsForm() {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              SEO Description
+              SEO tavsif
             </label>
             <textarea
               name="seoDescription"

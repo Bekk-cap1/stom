@@ -2,9 +2,9 @@
 import { apiFetch } from '../../api/client'
 
 const positionOptions = [
-  { value: 'home', label: 'Главная' },
-  { value: 'services', label: 'Услуги' },
-  { value: 'offers', label: 'Акции' },
+  { value: 'home', label: 'Bosh sahifa' },
+  { value: 'services', label: 'Xizmatlar' },
+  { value: 'offers', label: 'Aksiyalar' },
 ]
 
 const initialForm = {
@@ -43,7 +43,7 @@ function AdminBannersManager({ banners, setBanners }) {
     setError('')
 
     if (!form.title.trim() || (!editingId && !form.image)) {
-      setError('Заполните заголовок и выберите изображение')
+      setError('Sarlavhani to‘ldiring va rasm tanlang')
       return
     }
 
@@ -99,12 +99,12 @@ function AdminBannersManager({ banners, setBanners }) {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            баннеры
+            bannerlar
           </p>
-          <h3 className="mt-2 font-display text-2xl">Hero и промо-баннеры</h3>
+          <h3 className="mt-2 font-display text-2xl">Hero va promo bannerlar</h3>
         </div>
         <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {banners.length} баннеров
+          {banners.length} banner
         </span>
       </div>
 
@@ -112,19 +112,19 @@ function AdminBannersManager({ banners, setBanners }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Заголовок
+              Sarlavha
             </label>
             <input
               name="title"
               value={form.title}
               onChange={handleChange}
-              placeholder="Название баннера"
+              placeholder="Banner nomi"
               className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Позиция
+              Joylashuv
             </label>
             <select
               name="position"
@@ -143,7 +143,7 @@ function AdminBannersManager({ banners, setBanners }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Ссылка
+              Havola
             </label>
             <input
               name="link_url"
@@ -155,7 +155,7 @@ function AdminBannersManager({ banners, setBanners }) {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Изображение
+              Rasm
             </label>
             <input
               type="file"
@@ -169,7 +169,7 @@ function AdminBannersManager({ banners, setBanners }) {
               type="submit"
               className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft"
             >
-              {editingId ? 'Сохранить' : 'Добавить баннер'}
+              {editingId ? 'Saqlash' : 'Banner qo‘shish'}
             </button>
             <button
               type="button"
@@ -180,7 +180,7 @@ function AdminBannersManager({ banners, setBanners }) {
               }}
               className="rounded-full border border-white/70 bg-white/80 px-5 py-2 text-sm font-semibold text-[color:var(--muted)]"
             >
-              Сбросить
+              Tozalash
             </button>
           </div>
         </div>
@@ -204,14 +204,14 @@ function AdminBannersManager({ banners, setBanners }) {
                 onClick={() => handleEdit(item)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Редактировать
+                Tahrirlash
               </button>
               <button
                 type="button"
                 onClick={() => handleDelete(item.id)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Удалить
+                O‘chirish
               </button>
             </div>
           </div>

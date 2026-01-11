@@ -29,11 +29,11 @@
             onClick={onClose}
             className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]"
           >
-            Закрыть
+            Yopish
           </button>
         </div>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {['до', 'после'].map((label, index) => {
+          {['oldin', 'keyin'].map((label, index) => {
             const imageUrl =
               index === 0 ? work.beforeImages?.[0] : work.afterImages?.[0]
             const fallbackClass = index === 0 ? work.beforeClass : work.afterClass
@@ -48,7 +48,7 @@
                 {imageUrl ? (
                   <img
                     src={imageUrl}
-                    alt={`Фото ${label}`}
+                    alt={`Foto ${label}`}
                     className="h-full w-full object-cover"
                     loading="lazy"
                   />

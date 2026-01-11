@@ -31,7 +31,7 @@ function AdminPatientsManager({ patients, setPatients }) {
     setError('')
 
     if (!form.first_name.trim() || !form.last_name.trim() || !form.visit_date) {
-      setError('Заполните имя, фамилию и дату визита')
+      setError('Ism, familiya va tashrif sanasini to‘ldiring')
       return
     }
 
@@ -85,12 +85,12 @@ function AdminPatientsManager({ patients, setPatients }) {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            приемы
+            qabullar
           </p>
-          <h3 className="mt-2 font-display text-2xl">Карточки пациентов</h3>
+          <h3 className="mt-2 font-display text-2xl">Bemor kartochkalari</h3>
         </div>
         <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {patients.length} пациентов
+          {patients.length} bemor
         </span>
       </div>
 
@@ -99,25 +99,25 @@ function AdminPatientsManager({ patients, setPatients }) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Имя
+                Ism
               </label>
               <input
                 name="first_name"
                 value={form.first_name}
                 onChange={handleChange}
-                placeholder="Имя"
+                placeholder="Ism"
                 className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
               />
             </div>
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Фамилия
+                Familiya
               </label>
               <input
                 name="last_name"
                 value={form.last_name}
                 onChange={handleChange}
-                placeholder="Фамилия"
+                placeholder="Familiya"
                 className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
               />
             </div>
@@ -125,7 +125,7 @@ function AdminPatientsManager({ patients, setPatients }) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Возраст
+                Yosh
               </label>
               <input
                 type="number"
@@ -138,7 +138,7 @@ function AdminPatientsManager({ patients, setPatients }) {
             </div>
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                Дата визита
+                Tashrif sanasi
               </label>
               <input
                 type="date"
@@ -151,26 +151,26 @@ function AdminPatientsManager({ patients, setPatients }) {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Диагноз / жалоба
+              Diagnoz / shikoyat
             </label>
             <input
               name="disease"
               value={form.disease}
               onChange={handleChange}
-              placeholder="Например: кариес"
+              placeholder="Masalan: karies"
               className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Примечание
+              Izoh
             </label>
             <textarea
               name="notes"
               value={form.notes}
               onChange={handleChange}
               rows="3"
-              placeholder="Дополнительная информация"
+              placeholder="Qo‘shimcha ma’lumot"
               className="mt-2 w-full resize-none rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
@@ -178,7 +178,7 @@ function AdminPatientsManager({ patients, setPatients }) {
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Оплата (сум)
+              To‘lov (so‘m)
             </label>
             <input
               inputMode="numeric"
@@ -191,13 +191,13 @@ function AdminPatientsManager({ patients, setPatients }) {
           </div>
           <div>
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-              Способ оплаты
+              To‘lov turi
             </label>
             <input
               name="payment_method"
               value={form.payment_method}
               onChange={handleChange}
-              placeholder="Наличные / карта"
+              placeholder="Naqd / karta"
               className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
             />
           </div>
@@ -207,7 +207,7 @@ function AdminPatientsManager({ patients, setPatients }) {
               type="submit"
               className="rounded-full bg-[color:var(--sky)] px-5 py-2 text-sm font-semibold text-white shadow-soft"
             >
-              {editingId ? 'Сохранить' : 'Добавить пациента'}
+              {editingId ? 'Saqlash' : 'Bemor qo‘shish'}
             </button>
             <button
               type="button"
@@ -218,7 +218,7 @@ function AdminPatientsManager({ patients, setPatients }) {
               }}
               className="rounded-full border border-white/70 bg-white/80 px-5 py-2 text-sm font-semibold text-[color:var(--muted)]"
             >
-              Сбросить
+              Tozalash
             </button>
           </div>
         </div>
@@ -235,36 +235,36 @@ function AdminPatientsManager({ patients, setPatients }) {
                 {item.first_name} {item.last_name}
               </p>
               <p className="text-xs text-[color:var(--muted)]">
-                {item.age ? `${item.age} лет` : 'Возраст не указан'} · {item.visit_date}
+                {item.age ? `${item.age} yosh` : 'Yosh ko‘rsatilmagan'} · {item.visit_date}
               </p>
               {item.disease ? (
                 <p className="text-xs text-[color:var(--muted)]">{item.disease}</p>
               ) : null}
               {item.payment_method ? (
                 <p className="text-xs text-[color:var(--muted)]">
-                  Оплата: {item.payment_method}
+                  To‘lov: {item.payment_method}
                 </p>
               ) : null}
             </div>
             <div className="flex items-center gap-2">
               <span className="rounded-full bg-[color:var(--sea)]/15 px-3 py-1 text-xs font-semibold text-[color:var(--sea)]">
                 {item.amount_paid
-                  ? `${formatNumberWithSpaces(item.amount_paid)} сум`
-                  : 'оплата не указана'}
+                  ? `${formatNumberWithSpaces(item.amount_paid)} so‘m`
+                  : 'to‘lov ko‘rsatilmagan'}
               </span>
               <button
                 type="button"
                 onClick={() => handleEdit(item)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Редактировать
+                Tahrirlash
               </button>
               <button
                 type="button"
                 onClick={() => handleDelete(item.id)}
                 className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs font-semibold text-[color:var(--muted)]"
               >
-                Удалить
+                O‘chirish
               </button>
             </div>
           </div>
