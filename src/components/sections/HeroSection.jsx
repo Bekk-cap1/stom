@@ -125,7 +125,7 @@ function HeroSection({
             <span className="block text-[color:var(--sky)]">{heroSubtitle}</span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-[color:var(--muted)]">{heroDescription}</p>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-8 block flex-wrap items-center gap-4 sm:flex">
             <a
               href="#contact"
               className="rounded-full bg-[color:var(--sky)] px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5"
@@ -166,7 +166,7 @@ function HeroSection({
               <img
                 src={image}
                 alt="Klinika"
-                className="h-56 w-full object-cover sm:h-[40rem]"
+                className="h-full w-full object-cover sm:h-[40rem]"
                 loading="lazy"
               />
             </div>
@@ -211,22 +211,33 @@ function HeroSection({
             </div>
 
             {availabilityDays?.length ? (
-              <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {availabilityDays.map((day, index) => (
-                  <button
-                    key={day.key || index}
-                    type="button"
-                    onClick={() => setActiveDayIndex(index)}
-                    className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] transition ${
-                      index === activeDayIndex
-                        ? 'bg-[color:var(--sky)] text-white'
-                        : 'border border-white/70 bg-white/80 text-[color:var(--muted)]'
-                    }`}
-                  >
-                    {formatDayLabel(day.date, index)}
-                  </button>
-                ))}
-              </div>
+              <>
+                <div className="mt-4 flex items-center justify-between gap-3 sm:hidden">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+                    {formatDayLabel(activeDay?.date, activeDayIndex)}
+                  </p>
+                  <span className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-[10px] font-semibold text-[color:var(--muted)]">
+                    {activeDayIndex + 1}/{availabilityDays.length}
+                  </span>
+                </div>
+
+                <div className="mt-4 hidden gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex">
+                  {availabilityDays.map((day, index) => (
+                    <button
+                      key={day.key || index}
+                      type="button"
+                      onClick={() => setActiveDayIndex(index)}
+                      className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] transition ${
+                        index === activeDayIndex
+                          ? 'bg-[color:var(--sky)] text-white'
+                          : 'border border-white/70 bg-white/80 text-[color:var(--muted)]'
+                      }`}
+                    >
+                      {formatDayLabel(day.date, index)}
+                    </button>
+                  ))}
+                </div>
+              </>
             ) : null}
 
             <div
