@@ -1,4 +1,6 @@
-﻿function AboutSection({ education = [], certificates = [], image, doctor, loading }) {
+﻿import HeroImage from '../../assets/Hero.JPG'
+
+function AboutSection({ education = [], certificates = [], image, doctor, loading }) {
   const doctorName = doctor?.user?.full_name || doctor?.user?.username || ''
   const aboutDescription =
     doctor?.bio ||
@@ -65,22 +67,20 @@
                 ))}
               </div>
             ) : null}
-            {image ? (
-              <div className="mt-6 rounded-3xl border border-white/70 bg-white/80 p-6 shadow-soft">
-                <p className="text-sm font-semibold text-[color:var(--muted)]">Shifokor fotosi</p>
-                <div className="relative mt-4 overflow-hidden rounded-2xl bg-gradient-to-br from-sky-100 via-white to-emerald-100">
-                  <img
-                    src={image}
-                    alt="Shifokor fotosi"
-                    className="h-40 w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <p className="mt-3 text-sm text-[color:var(--muted)]">
-                  Yaqin tanishuv — o‘zingizni xotirjam his qilishingiz uchun.
-                </p>
+            <div className="mt-6 rounded-3xl border border-white/70 bg-white/80 p-6 shadow-soft">
+              <p className="text-sm font-semibold text-[color:var(--muted)]">Shifokor fotosi</p>
+              <div className="relative mt-4 overflow-hidden rounded-2xl bg-gradient-to-br from-sky-100 via-white to-emerald-100">
+                <img
+                  src={HeroImage}
+                  alt="Shifokor fotosi"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
               </div>
-            ) : null}
+              <p className="mt-3 text-sm text-[color:var(--muted)]">
+                Yaqin tanishuv — o‘zingizni xotirjam his qilishingiz uchun.
+              </p>
+            </div>
           </div>
         </div>
       </div>

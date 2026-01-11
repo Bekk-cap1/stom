@@ -18,7 +18,7 @@ const safeStringify = (value) => {
 }
 
 export const getDefaultSiteSettings = () => ({
-  clinicName: 'Charos Karabekovna stomatologiyasi',
+  clinicName: 'Charos',
   heroBadge: 'Charos Karabekovna',
   heroTitle: 'Doktor Charos Karabekovna',
   heroSubtitle: 'Stomatolog',

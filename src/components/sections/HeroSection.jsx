@@ -126,18 +126,18 @@ function HeroSection({
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-[color:var(--muted)]">{heroDescription}</p>
           <div className="mt-8 block flex-wrap items-center gap-4 sm:flex">
-            <a
+            <button className='cursor-pointer'><a
               href="#contact"
-              className="rounded-full bg-[color:var(--sky)] px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5"
+              className="cursor-help rounded-full bg-[color:var(--sky)] px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5"
             >
               Konsultatsiyaga yozilish
-            </a>
-            <a
+            </a></button>
+            <button className='cursor-pointer mt-10 sm:mt-0'><a
               href="#works"
-              className="rounded-full border border-white/70 bg-white/80 px-6 py-3 text-sm font-semibold text-[color:var(--ink)] shadow-soft transition hover:-translate-y-0.5"
+              className="cursor-help rounded-full border border-white/70 bg-white/80 px-6 py-3 text-sm font-semibold text-[color:var(--ink)] shadow-soft transition hover:-translate-y-0.5"
             >
               Ishlarni ko'rish
-            </a>
+            </a></button>
           </div>
           {statsToRender.length ? (
             <div className="mt-10 grid gap-4 sm:grid-cols-3">
