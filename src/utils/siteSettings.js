@@ -55,7 +55,7 @@ export const getDefaultSiteSettings = () => ({
       address: 'IDent dental clinic',
       landmark: '',
       phones: ['+998941981118'],
-      mapQuery: 'Toshkent IDent dental clinic',
+      mapQuery: 'Чимкентская улица 5',
     },
   ],
 
