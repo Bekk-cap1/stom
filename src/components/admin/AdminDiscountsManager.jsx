@@ -18,6 +18,24 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
   const [editingId, setEditingId] = useState(null)
   const [error, setError] = useState('')
 
+  const previewTitle = form.title.trim() || 'Aksiya nomi'
+  const previewDescription = form.description.trim() || 'Qisqacha tavsif...'
+  const previewValid = (() => {
+    if (form.start_date && form.end_date) return `${form.start_date} - ${form.end_date}`
+    if (form.end_date) return `${form.end_date} gacha`
+    if (form.start_date) return `${form.start_date} dan`
+    return 'muddat'
+  })()
+  const previewDiscount = (() => {
+    if (form.discount_percent) return `-${form.discount_percent}%`
+    if (form.discount_price) {
+      const digits = stripNonDigits(form.discount_price)
+      const formatted = digits ? formatNumberWithSpaces(digits) : ''
+      return formatted ? `-${formatted} so'm` : '-'
+    }
+    return '-'
+  })()
+
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target
 
@@ -134,9 +152,19 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
           </p>
           <h3 className="mt-2 font-display text-2xl">Chegirmalar va maxsus takliflar</h3>
         </div>
-        <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {discounts.length} taklif
-        </span>
+        <div className="flex flex-wrap items-center gap-2">
+          <a
+            href="/#promos"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)] shadow-soft transition hover:-translate-y-0.5"
+          >
+            Saytda ko'rish
+          </a>
+          <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
+            {discounts.length} taklif
+          </span>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="mt-6 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
@@ -195,6 +223,22 @@ function AdminDiscountsManager({ discounts, setDiscounts, services }) {
           </div>
         </div>
         <div className="space-y-4">
+          <div className="rounded-3xl border border-white/70 bg-white/80 p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+              Saytda qanday ko'rinadi
+            </p>
+            <div className="mt-4 rounded-3xl border border-white/70 bg-gradient-to-br from-white/90 to-white/70 p-6 shadow-soft">
+              <div className="flex items-center justify-between gap-3">
+                <span className="rounded-full bg-[color:var(--sun)]/20 px-3 py-1 text-xs font-semibold text-[color:var(--sun)]">
+                  {previewValid}
+                </span>
+                <span className="text-2xl font-display text-[color:var(--sea)]">{previewDiscount}</span>
+              </div>
+              <p className="mt-5 text-xl font-semibold text-[color:var(--ink)]">{previewTitle}</p>
+              <p className="mt-3 text-sm text-[color:var(--muted)]">{previewDescription}</p>
+              <p className="mt-5 text-sm font-semibold text-[color:var(--sky)]">Qabulga yozilish</p>
+            </div>
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">

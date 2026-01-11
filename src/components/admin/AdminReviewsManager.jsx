@@ -116,9 +116,19 @@ function AdminReviewsManager({ reviews, setReviews, doctors, works }) {
           </p>
           <h3 className="mt-2 font-display text-2xl">Fikrlarni moderatsiya qilish</h3>
         </div>
-        <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {reviews.length} fikr
-        </span>
+        <div className="flex flex-wrap items-center gap-2">
+          <a
+            href="/#reviews"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)] shadow-soft transition hover:-translate-y-0.5"
+          >
+            Saytda ko'rish
+          </a>
+          <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
+            {reviews.length} fikr
+          </span>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="mt-6 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">

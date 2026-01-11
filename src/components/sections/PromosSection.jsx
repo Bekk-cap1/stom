@@ -1,8 +1,8 @@
-﻿function PromosSection({ promos, loading }) {
+function PromosSection({ promos, loading }) {
   const isLoading = loading && !promos.length
 
   return (
-    <section className="px-6 pb-16">
+    <section id="promos" className="px-6 pb-16">
       <div className="mx-auto max-w-6xl rounded-[36px] border border-white/70 bg-white/80 p-8 shadow-soft sm:p-10">
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div>
@@ -38,9 +38,7 @@
                 </span>
               </div>
               <h3 className="mt-5 text-xl font-semibold">{promo.title}</h3>
-              <p className="mt-3 text-sm text-[color:var(--muted)]">
-                {promo.description}
-              </p>
+              <p className="mt-3 text-sm text-[color:var(--muted)]">{promo.description}</p>
               <a
                 href="#contact"
                 className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--sky)]"
@@ -56,3 +54,4 @@
 }
 
 export default PromosSection
+

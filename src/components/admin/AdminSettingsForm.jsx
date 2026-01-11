@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+﻿import { useEffect, useMemo, useState } from 'react'
 import { getSiteSettings, setSiteSettings } from '../../utils/siteSettings'
 
 const ensureLocationId = (value) => {
@@ -273,7 +273,7 @@ function AdminSettingsForm() {
                 className="mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-sm outline-none"
               />
               <p className="mt-2 text-xs text-[color:var(--muted)]">
-                Ijtimoiy tarmoqlarda link tashlanganda chiqadigan rasm. Eng yaxshi o'lcham: 1200×630.
+                Ijtimoiy tarmoqlarda link tashlanganda chiqadigan rasm. Eng yaxshi o'lcham: 1200x630.
               </p>
             </div>
           </div>
@@ -288,6 +288,14 @@ function AdminSettingsForm() {
               Rezyume va sertifikatlarni ko'rsatish uchun URL kiriting. Agar fayl kompyuteringizda
               bo'lsa, uni `public/docs` papkaga qo'yib, URL ni `/docs/...` ko'rinishida yozing.
             </p>
+            <a
+              href="/#documents"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center text-sm font-semibold text-[color:var(--sky)]"
+            >
+              Saytda ko'rish
+            </a>
           </div>
           <div className="space-y-4">
             <div>
@@ -327,7 +335,7 @@ function AdminSettingsForm() {
                         value={item}
                         onChange={(event) => updateCertificate(index, event.target.value)}
                         placeholder="/docs/certificates/sertifikat-1.jpg"
-                        className="min-w-[200px] flex-1 bg-transparent text-sm outline-none"
+                        className="min-w-[200px] flex-1 text-sm outline-none mt-2 w-full rounded-2xl border border-white/70 bg-white/70 px-4 py-3"
                       />
                       <button
                         type="button"

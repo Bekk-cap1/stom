@@ -22,6 +22,28 @@ function AdminServicesManager({ services, setServices }) {
   const [editingId, setEditingId] = useState(null)
   const [error, setError] = useState('')
 
+  const previewPrice = (() => {
+    if (form.price_type === 'range') {
+      const from = stripNonDigits(form.price_from)
+      const to = stripNonDigits(form.price_to)
+      const fromText = from ? formatDigitsInText(String(from)) : ''
+      const toText = to ? formatDigitsInText(String(to)) : ''
+      if (fromText && toText && fromText !== toText) return `${fromText}-${toText} so'm`
+      if (fromText) return `${fromText} so'mdan`
+      if (toText) return `${toText} so'mgacha`
+      return ''
+    }
+
+    const raw = stripNonDigits(form.price)
+    const digits = raw ? formatDigitsInText(String(raw)) : ''
+    return digits ? `${digits} so'm` : ''
+  })()
+
+  const previewDuration = form.duration_minutes ? `${form.duration_minutes} daq` : ''
+  const previewTitle = form.title.trim() || 'Xizmat nomi'
+  const previewDescription = form.description.trim() || 'Qisqacha tavsif...'
+  const previewIcon = (form.title?.trim()?.[0] || 'X').toUpperCase()
+
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target
 
@@ -237,9 +259,19 @@ function AdminServicesManager({ services, setServices }) {
           </p>
           <h3 className="mt-2 font-display text-2xl">Xizmatlar katalogi</h3>
         </div>
-        <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
-          {services.length} xizmat
-        </span>
+        <div className="flex flex-wrap items-center gap-2">
+          <a
+            href="/#services"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)] shadow-soft transition hover:-translate-y-0.5"
+          >
+            Saytda ko'rish
+          </a>
+          <span className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-[color:var(--muted)]">
+            {services.length} xizmat
+          </span>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="mt-6 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
@@ -344,6 +376,27 @@ function AdminServicesManager({ services, setServices }) {
           </div>
         </div>
         <div className="space-y-4">
+          <div className="rounded-3xl border border-white/70 bg-white/80 p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
+              Saytda qanday ko'rinadi
+            </p>
+            <div className="mt-4 rounded-3xl border border-white/70 bg-white/80 p-5 shadow-soft">
+              <div className="flex items-start justify-between gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[color:var(--sky)]/15 text-sm font-bold text-[color:var(--sky)]">
+                  {previewIcon}
+                </span>
+                <span className="rounded-full bg-[color:var(--sea)]/15 px-3 py-1 text-xs font-semibold text-[color:var(--sea)]">
+                  mavjud
+                </span>
+              </div>
+              <p className="mt-4 text-lg font-semibold text-[color:var(--ink)]">{previewTitle}</p>
+              <p className="mt-2 text-sm text-[color:var(--muted)]">{previewDescription}</p>
+              <p className="mt-3 text-xs font-semibold text-[color:var(--muted)]">
+                {previewPrice || "Narx so'rov bo'yicha"}
+                {previewDuration ? ` · ${previewDuration}` : ''}
+              </p>
+            </div>
+          </div>
           <label className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--muted)]">
             <input
               type="checkbox"
