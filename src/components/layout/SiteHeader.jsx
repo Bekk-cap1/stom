@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+﻿import { useEffect, useMemo, useState } from 'react'
 import { Instagram, Moon, Sun, Telegram, Tooth } from '../ui/Icons'
 import { getPrimaryLocation, getSiteSettings } from '../../utils/siteSettings'
 import { formatUzPhone, normalizeUzPhone } from '../../utils/phone'
@@ -81,7 +81,7 @@ function SiteHeader() {
               <Tooth className="h-6 w-6 text-[color:var(--sky)]" />
             </div>
             <div className="min-w-0">
-              <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted)]">
+              <p className="text-xs uppercase tracking-[0.1em] md:tracking-[0.2em] text-[color:var(--muted)]">
                 stomatolog
               </p>
               <p className="max-w-[140px] truncate font-display text-base sm:max-w-none sm:text-lg">
