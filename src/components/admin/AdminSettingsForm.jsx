@@ -328,7 +328,7 @@ function AdminSettingsForm() {
                 <div className="mt-4 space-y-3">
                   {certificates.map((item, index) => (
                     <div
-                      key={`${index}-${item}`}
+                      key={index}
                       className="flex flex-wrap items-center gap-3 rounded-2xl border border-white/70 bg-white/80 p-3"
                     >
                       <input
